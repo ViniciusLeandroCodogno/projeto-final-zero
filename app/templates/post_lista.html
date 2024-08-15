@@ -3,7 +3,7 @@
     <div class="container">
         {% include 'nave.html' %}
         <div class="row mt-4">
-            <h3>Lista de Posts</h3>
+            <h2 class="w-100 text-center">Blog</h2>
             <div class="col-12">
                 <table class="table">
                     <tbody>
@@ -34,22 +34,24 @@
                                     <div class="form-group">
                                         <textarea name="conteudo" class="form-control" placeholder="Adicione um comentário..." required></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-warning mt-2">Comentar</button>
+                                    <button type="submit" class="btn btn-warning mt-2 mb-3">Comentar</button>
                                 </form>
-
-                                <h5 class="mt-3">Comentários:</h5>
-                                {% if linha.comentarios|length == 0 %}
-                                    <p>Não existe nenhum comentário</p>
-                                {% else %}
-                                    {% for comentario in linha.comentarios %}
-                                        <div class="border p-2 mb-2">
-                                            <p>
-                                                {{ comentario.conteudo }} <br><br>
-                                                Comentário feito por: <strong>{{ comentario.user.nome }}</strong> <br>
-                                            </p>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
+                                <div style="background-color: #297272; padding: 10px 20px 20px 20px; color: white; border-radius: 20px;">
+                                    <h5 class="w-100 text-center mt-3 mb-4">Comentários</h5>
+                                    {% if linha.comentarios|length == 0 %}
+                                        <p>Não existe nenhum comentário</p>
+                                    {% else %}
+                                        {% for comentario in linha.comentarios %}
+                                            
+                                            <div class="border p-2 mb-2" style="border-radius: 10px;"> <!-- Borda indicada -->
+                                                <p style="padding: 10px 10px 0px 10px;">
+                                                    {{ comentario.conteudo }} <br><br>
+                                                    <small>Comentário feito por: <strong>{{ comentario.user.nome }}</strong></small> <br>
+                                                </p>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
                             </td>
                         </tr>
                         {% endfor %}

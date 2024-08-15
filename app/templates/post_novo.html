@@ -4,19 +4,23 @@
     <div class="container">
         {% include 'nave.html' %}
 
-        <hr>
-
-        <div class="row mt-4">
-            <h3 style="text-align: center;">Blog</h3>
+        <div class="row mt-4 justify-content-center">
+            <!-- erro de centralização aqui -->
+            <h2 class="w-100 text-center">Crie o seu post</h2>
         </div>
-
         <form action="" method="post" class="row mt-4 p-4 round border shadow" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
-            {{ form.mensagem.label() }}
-            {{ form.mensagem(class="form-control") }}
 
-            {{ form.btnSubmit(class="btn btn-warning") }}
+            {{ form.mensagem(class="form-control mt-1 custom-textarea", placeholder="Digite sua mensagem aqui...") }}
+
+            {{ form.btnSubmit(class="btn btn-warning mt-3") }}
 
         </form>
     </div>
-{% endblock %}  
+    <style>
+        .custom-textarea {
+            height: 100px;
+        }
+
+    </style>
+{% endblock %}
