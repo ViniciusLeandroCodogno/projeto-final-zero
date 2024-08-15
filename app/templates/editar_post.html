@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <h3>Editar Post</h3>
+        <form action="{{ url_for('editar_post', post_id=post.id) }}" method="POST">
+            <div class="form-group">
+                <textarea name="mensagem" class="form-control" required>{{ post.mensagem }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Salvar</button>
+        </form>
+    </div>
+{% endblock %}

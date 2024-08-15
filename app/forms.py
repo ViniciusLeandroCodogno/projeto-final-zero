@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from app import db, bcrypt
-from app.models import User
+from app.models import User, Post
 
 class userForm(FlaskForm):
     nome = StringField('Nome', validators=[DataRequired()])
@@ -38,3 +38,15 @@ class loginForm(FlaskForm):
         if user and bcrypt.check_password_hash(user.senha, self.senha.data.encode('utf-8')):
             return user
         raise Exception('Usuário não encontrado ou senha incorreta!!!')
+
+class postForm(FlaskForm):
+    mensagem = StringField('Mensagem', validators=[DataRequired()])
+    btnSubmit = SubmitField('Enviar')
+
+    def save(self, user_id):
+        post = Post(
+            mensagem=self.mensagem.data,
+            user_id=user_id
+        )
+        db.session.add(post)
+        db.session.commit()

@@ -11,3 +11,18 @@ class User(db.Model, UserMixin):
     sobrenome = db.Column(db.String, nullable=True)
     email = db.Column(db.String, nullable=True)
     senha = db.Column(db.String, nullable=True)
+    posts = db.relationship('Post', backref='user', lazy=True)
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    mensagem = db.Column(db.String, nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+
+class Comentario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    conteudo = db.Column(db.String, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+    
+    user = db.relationship('User', backref='comentarios')
+    post = db.relationship('Post', backref='comentarios')
