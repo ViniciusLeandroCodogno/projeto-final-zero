@@ -41,7 +41,7 @@ def postNovo():
         db.session.add(post)
         db.session.commit()
         
-        return redirect(url_for('homepage'))
+        return redirect(url_for('postLista'))
     
     return render_template('post_novo.html', form=form)
 
@@ -80,5 +80,26 @@ def excluir_post(post_id):
     post = Post.query.get_or_404(post_id)
     if post.user_id == current_user.id:
         db.session.delete(post)
+        db.session.commit()
+    return redirect(url_for('postLista'))
+
+@app.route('/editar_comentario/<int:comentario_id>', methods=['GET', 'POST'])
+def editar_comentario(comentario_id):
+    comentario = Comentario.query.get_or_404(comentario_id)
+    if comentario.user_id != current_user.id:
+        return redirect(url_for('postLista'))
+
+    if request.method == 'POST':
+        comentario.conteudo = request.form.get('conteudo')
+        db.session.commit()
+        return redirect(url_for('postLista'))
+
+    return render_template('editar_comentario.html', comentario=comentario)
+
+@app.route('/excluir_comentario/<int:comentario_id>', methods=['POST'])
+def excluir_comentario(comentario_id):
+    comentario = Comentario.query.get_or_404(comentario_id)
+    if comentario.user_id == current_user.id:
+        db.session.delete(comentario)
         db.session.commit()
     return redirect(url_for('postLista'))

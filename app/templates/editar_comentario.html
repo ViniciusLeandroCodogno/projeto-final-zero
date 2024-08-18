@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Editar Comentário</h2>
+    <form action="{{ url_for('editar_comentario', comentario_id=comentario.id) }}" method="POST" class="mt-4">
+        <div class="form-group">
+            <label for="conteudo">Conteúdo do Comentário</label>
+            <textarea name="conteudo" class="form-control" rows="4" required>{{ comentario.conteudo }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Salvar</button>
+        <a href="{{ url_for('postLista') }}" class="btn btn-secondary mt-3">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

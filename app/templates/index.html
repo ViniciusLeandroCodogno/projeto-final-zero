@@ -14,14 +14,12 @@
         {% else %}
 
         <form action="" method="post" class="row mt-4 p-4 round border shadow" style="border-radius: 20px; background-color: #297272;">
-            <h2 class="login-text">Antes de tudo, faça seu login</h2>
+            <h2 class="login-text" style="margin-bottom: 20px;">Antes de tudo, faça o seu login</h2>
             {{form.csrf_token}}
  
-            {{form.email.label(class="form-login-email")}}
-            {{form.email(class="form-control")}}
- 
-            {{form.senha.label(class="form-login-senha")}}
-            {{form.senha(class="form-control")}}
+            {{form.email(class="form-control", placeholder="Digite seu melhor E-mail...")}}
+            
+            {{form.senha(class="form-control", placeholder="Digite uma senha segura...", style="margin-top: 20px;")}}
  
             {{form.btnSubmit(class="btn btn-warning col-12 mt-3")}}
             
