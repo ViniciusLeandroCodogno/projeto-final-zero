@@ -1,8 +1,12 @@
+from flask import current_app
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
+from werkzeug.utils import secure_filename
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 from app import db, bcrypt
 from app.models import User, Post, Petgram
+import os
 
 class userForm(FlaskForm):
     nome = StringField('Nome', validators=[DataRequired()])
@@ -41,24 +45,42 @@ class loginForm(FlaskForm):
 
 class postForm(FlaskForm):
     mensagem = StringField('Mensagem', validators=[DataRequired()])
+    imagem = FileField('Imagem', validators=[FileAllowed(['jpg', 'png'], 'Imagens apenas!')])
     btnSubmit = SubmitField('Enviar')
 
     def save(self, user_id):
+        imagem = None
+        if self.imagem.data:
+            file = self.imagem.data
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            imagem = filename
+        
         post = Post(
             mensagem=self.mensagem.data,
             user_id=user_id,
+            imagem=imagem
         )
         db.session.add(post)
         db.session.commit()
 
 class petgramForm(FlaskForm):
     mensagem = StringField('Mensagem', validators=[DataRequired()])
+    imagem = FileField('Imagem', validators=[FileAllowed(['jpg', 'png'], 'Imagens apenas!')])
     btnSubmit = SubmitField('Enviar')
 
     def save(self, user_id):
+        imagem = None
+        if self.imagem.data:
+            file = self.imagem.data
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            imagem = filename
+        
         petgram = Petgram(
             mensagem=self.mensagem.data,
             user_id=user_id,
+            imagem=imagem
         )
         db.session.add(petgram)
         db.session.commit()

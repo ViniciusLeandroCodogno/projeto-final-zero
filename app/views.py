@@ -3,6 +3,21 @@ from flask import render_template, url_for, redirect, request
 from app.forms import userForm, loginForm, postForm, petgramForm
 from flask_login import login_user, logout_user, current_user
 from app.models import Post, Comentario, Petgram, ComentarioPetgram
+from werkzeug.utils import secure_filename
+from flask import current_app
+import os
+
+UPLOAD_FOLDER = os.path.join(app.root_path, 'static','uploads')
+ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
@@ -31,9 +46,19 @@ def logout():
 def postNovo():
     form = postForm()
     if form.validate_on_submit():
+        imagem = None
+        if 'imagem' in request.files:
+            file = request.files['imagem']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(UPLOAD_FOLDER, filename))
+                
+                imagem = filename
+        
         post = Post(
             mensagem=form.mensagem.data,
-            user_id=current_user.id
+            user_id=current_user.id,
+            imagem=imagem
         )
         db.session.add(post)
         db.session.commit()
@@ -104,9 +129,18 @@ def excluir_comentario(comentario_id):
 def petgramNovo():
     form = petgramForm()
     if form.validate_on_submit():
+        imagem = None
+        if 'imagem' in request.files:
+            file = request.files['imagem']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(UPLOAD_FOLDER, filename))
+                imagem = filename
+        
         petgram = Petgram(
             mensagem=form.mensagem.data,
-            user_id=current_user.id
+            user_id=current_user.id,
+            imagem=imagem
         )
         db.session.add(petgram)
         db.session.commit()

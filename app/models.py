@@ -19,6 +19,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     mensagem = db.Column(db.String, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    imagem = db.Column(db.String, nullable=True)
 
 class Comentario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -34,6 +35,7 @@ class Petgram(db.Model):
     mensagem = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     comentarios = db.relationship('ComentarioPetgram', backref='petgram', lazy=True)
+    imagem = db.Column(db.String, nullable=True) 
 
 class ComentarioPetgram(db.Model):
     id = db.Column(db.Integer, primary_key=True)

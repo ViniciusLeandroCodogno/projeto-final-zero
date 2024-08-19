@@ -18,6 +18,9 @@
                                         <h4 class="w-100 text-center text-white">Petgram: {{ linha.id }}</h4>
                                         <p><strong>Mensagem:</strong> {{ linha.mensagem }}</p>
                                         <p><strong>Usuário:</strong> {{ linha.user.nome }}</p>
+                                        {% if linha.imagem %}
+                                        <img src="{{ url_for('static', filename='uploads/' ~ linha.imagem) }}" alt="Imagem do Post" class="img-fluid mb-2">
+                                        {% endif %}
                                     </div>
 
                                     <!-- Comentários do Petgram -->
