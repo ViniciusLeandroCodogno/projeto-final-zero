@@ -2,15 +2,7 @@ from app import app, db
 from flask import render_template, url_for, redirect, request
 from app.forms import userForm, loginForm, postForm, petgramForm
 from flask_login import login_user, logout_user, current_user
-from app.models import Post, Comentario, Petgram
-from werkzeug.utils import secure_filename
-import os
-
-UPLOAD_FOLDER = 'static/images'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+from app.models import Post, Comentario, Petgram, ComentarioPetgram
 
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
@@ -39,21 +31,10 @@ def logout():
 def postNovo():
     form = postForm()
     if form.validate_on_submit():
-        imagem = request.files.get('imagem')
-        if imagem and allowed_file(imagem.filename):
-            filename = secure_filename(imagem.filename)
-            imagem_path = os.path.join(UPLOAD_FOLDER, filename)
-            imagem.save(imagem_path)
-            imagem_url = url_for('static', filename='images/' + filename)
-        else:
-            imagem_url = None
-        
         post = Post(
             mensagem=form.mensagem.data,
-            imagem_url=imagem_url,
             user_id=current_user.id
         )
-       
         db.session.add(post)
         db.session.commit()
         
@@ -76,7 +57,6 @@ def comentar_post(post_id):
     db.session.commit()
     
     return redirect(url_for('postLista'))
-
 
 @app.route('/editar_post/<int:post_id>', methods=['GET', 'POST'])
 def editar_post(post_id):
@@ -103,7 +83,7 @@ def excluir_post(post_id):
 def editar_comentario(comentario_id):
     comentario = Comentario.query.get_or_404(comentario_id)
     if comentario.user_id != current_user.id:
-        return redirect(url_for('postLista'))
+        return redirect(url_for('postLista')) 
 
     if request.method == 'POST':
         comentario.conteudo = request.form.get('conteudo')
@@ -120,25 +100,14 @@ def excluir_comentario(comentario_id):
         db.session.commit()
     return redirect(url_for('postLista'))
 
-@app.route('/petgram/novo/', methods=['GET', 'POST'])
+@app.route('/petgram/', methods=['GET', 'POST'])
 def petgramNovo():
     form = petgramForm()
     if form.validate_on_submit():
-        imagem = request.files.get('imagem')
-        if imagem and allowed_file(imagem.filename):
-            filename = secure_filename(imagem.filename)
-            imagem_path = os.path.join(UPLOAD_FOLDER, filename)
-            imagem.save(imagem_path)
-            imagem_url = url_for('static', filename='images/' + filename)
-        else:
-            imagem_url = None
-        
         petgram = Petgram(
             mensagem=form.mensagem.data,
-            imagem_url=imagem_url,
             user_id=current_user.id
         )
-       
         db.session.add(petgram)
         db.session.commit()
         
@@ -156,7 +125,7 @@ def comentar_petgram(petgram_id):
     petgram = Petgram.query.get_or_404(petgram_id)
     conteudo = request.form.get('conteudo')
     
-    comentario = Comentario(conteudo=conteudo, user_id=current_user.id, petgram_id=petgram.id)
+    comentario = ComentarioPetgram(conteudo=conteudo, user_id=current_user.id, petgram_id=petgram.id)
     db.session.add(comentario)
     db.session.commit()
     
@@ -166,7 +135,7 @@ def comentar_petgram(petgram_id):
 def editar_petgram(petgram_id):
     petgram = Petgram.query.get_or_404(petgram_id)
     if petgram.user_id != current_user.id:
-        return redirect(url_for('petgramLista')) 
+        return redirect(url_for('petgram_lista')) 
 
     if request.method == 'POST':
         petgram.mensagem = request.form.get('mensagem')
@@ -185,20 +154,20 @@ def excluir_petgram(petgram_id):
 
 @app.route('/editar_comentario_petgram/<int:comentario_id>', methods=['GET', 'POST'])
 def editar_comentario_petgram(comentario_id):
-    comentario = Comentario.query.get_or_404(comentario_id)
+    comentario = ComentarioPetgram.query.get_or_404(comentario_id)
     if comentario.user_id != current_user.id:
-        return redirect(url_for('petgramLista'))
+        return redirect(url_for('petgram_lista')) 
 
     if request.method == 'POST':
         comentario.conteudo = request.form.get('conteudo')
         db.session.commit()
         return redirect(url_for('petgramLista'))
 
-    return render_template('editar_comentario.html', comentario=comentario)
+    return render_template('editar_comentario_petgram.html', comentario=comentario)
 
 @app.route('/excluir_comentario_petgram/<int:comentario_id>', methods=['POST'])
 def excluir_comentario_petgram(comentario_id):
-    comentario = Comentario.query.get_or_404(comentario_id)
+    comentario = ComentarioPetgram.query.get_or_404(comentario_id)
     if comentario.user_id == current_user.id:
         db.session.delete(comentario)
         db.session.commit()

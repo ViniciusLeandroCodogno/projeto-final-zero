@@ -11,50 +11,45 @@
                         <tr>
                             <td colspan="4">
                                 <!-- Estrutura do Petgram -->
-                                <div class="Estrutura_do_Petgram d-flex flex-column border p-3 mb-2" style="background-color: #297272; padding: 10px 20px; border-radius: 20px;">
+                                <div class="petgram-estrutura d-flex flex-column border p-3 mb-2 rounded-3">
 
                                     <!-- Informações do Petgram -->
-                                    <div class="d-flex flex-column mb-4" style="background-color: #399191; padding: 10px 20px; border-radius: 20px;">
-                                        <h4 class="w-100 text-center" style="color: white;">Petgram: {{ linha.id }}</h4>
+                                    <div class="petgram-info d-flex flex-column mb-4">
+                                        <h4 class="w-100 text-center text-white">Petgram: {{ linha.id }}</h4>
                                         <p><strong>Mensagem:</strong> {{ linha.mensagem }}</p>
-
-                                        {% if linha.imagem_url %}
-                                            <img src="{{ linha.imagem_url }}" alt="Imagem do petgram" class="img-fluid mb-3">
-                                        {% endif %}
-
                                         <p><strong>Usuário:</strong> {{ linha.user.nome }}</p>
                                     </div>
 
-                                    <!-- Estrutura dos Comentários do Petgram -->
-                                    <div class="Comentario_div" style="background-color: #D2D2AC; padding: 10px 20px; border-radius: 20px;">
-                                        <h4 class="w-100 text-center mt-3 mb-4" style="color: white;">Comentários</h4>
+                                    <!-- Comentários do Petgram -->
+                                    <div class="petgram-comentarios bg-light p-3 rounded-3">
+                                        <h4 class="w-100 text-center mt-3 mb-4">Comentários</h4>
                                         
-                                        <!-- Formulário dos Comentários -->
+                                        <!-- Formulário de Comentários -->
                                         <form action="{{ url_for('comentar_petgram', petgram_id=linha.id) }}" method="POST" class="mt-2">
                                             <div class="form-group">
                                                 <textarea name="conteudo" class="form-control" placeholder="Adicione um comentário..." required></textarea>
                                                 <button type="submit" class="btn btn-warning mt-2 mb-3">Comentar</button>
                                             </div>
-                                            <hr style="border: 1px solid white;">
+                                            <hr class="text-white">
                                         </form>
 
-                                        <!-- Estrutura Visualização dos Comentários -->
-                                        <div style="background-color: #D2D2AC; padding: 10px 20px; border-radius: 20px; color: white;">
+                                        <!-- Exibição dos Comentários -->
+                                        <div class="comentarios-visualizacao">
                                             {% if linha.comentarios|length == 0 %}
                                                 <p>Não existe nenhum comentário</p>
                                             {% else %}
                                                 {% for comentario in linha.comentarios %}
-                                                    <div class="border p-2 mb-2" style="border-radius: 10px;">
-                                                        <p style="padding: 10px 10px 0px 10px;">
+                                                    <div class="comentario-item border p-2 mb-2 rounded-2">
+                                                        <p>
                                                             {{ comentario.conteudo }} <br><br>
-                                                            <small>Comentário feito por: <strong>{{ comentario.user.nome }}</strong></small> <br>
+                                                            <small>Comentário feito por: <strong>{{ comentario.user.nome }}</strong></small>
                                                         </p>
                                                         {% if comentario.user_id == current_user.id %}
                                                             <div class="actions d-flex">
-                                                                <a href="{{ url_for('editar_comentario_petgram', comentario_id=comentario.id) }}" class="btn btn-primary btn-sm mb-2" style="width: auto;">Editar</a>
+                                                                <a href="{{ url_for('editar_comentario_petgram', comentario_id=comentario.id) }}" class="btn btn-primary btn-sm me-2">Editar</a>
                                                                 <form action="{{ url_for('excluir_comentario_petgram', comentario_id=comentario.id) }}" method="POST" style="display:inline;">
                                                                     <input type="hidden" name="_method" value="DELETE">
-                                                                    <button type="submit" class="btn btn-danger btn-sm" style="width: auto;">Excluir</button>
+                                                                    <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
                                                                 </form>
                                                             </div>
                                                         {% endif %}
@@ -65,13 +60,13 @@
                                     </div>
                                 </div>
 
-                                <!-- Botões de ação do Petgram -->
+                                <!-- Botões de Ação do Petgram -->
                                 <div class="actions d-flex">
                                     {% if linha.user.id == current_user.id %}
-                                        <a href="{{ url_for('editar_petgram', petgram_id=linha.id) }}" class="btn btn-primary btn-sm mb-2" style="width: auto;">Editar</a>
+                                        <a href="{{ url_for('editar_petgram', petgram_id=linha.id) }}" class="btn btn-primary btn-sm me-2">Editar</a>
                                         <form action="{{ url_for('excluir_petgram', petgram_id=linha.id) }}" method="POST" style="display:inline;">
                                             <input type="hidden" name="_method" value="DELETE">
-                                            <button type="submit" class="btn btn-danger btn-sm" style="width: auto;">Excluir</button>
+                                            <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
                                         </form>
                                     {% endif %}
                                 </div>
