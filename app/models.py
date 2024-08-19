@@ -12,11 +12,15 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String, nullable=True)
     senha = db.Column(db.String, nullable=True)
     posts = db.relationship('Post', backref='user', lazy=True)
+    petgrams = db.relationship('Petgram', backref='user', lazy=True)
+    comentarios_petgram = db.relationship('ComentarioPetgram', backref='user', lazy=True)
+
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     mensagem = db.Column(db.String, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    imagem_url = db.Column(db.String, nullable=True)
 
 class Comentario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -26,3 +30,17 @@ class Comentario(db.Model):
     
     user = db.relationship('User', backref='comentarios')
     post = db.relationship('Post', backref='comentarios')
+
+class Petgram(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    mensagem = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    imagem_url = db.Column(db.String, nullable=True)
+    comentarios = db.relationship('ComentarioPetgram', backref='petgram', lazy=True)
+
+class ComentarioPetgram(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    conteudo = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    petgram_id = db.Column(db.Integer, db.ForeignKey('petgram.id'), nullable=False)
+

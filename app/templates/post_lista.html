@@ -10,50 +10,58 @@
                         {% for linha in posts %}
                         <tr>
                             <td colspan="4">
-
                                 <!-- Estrutura do Post -->
-                                <h5 class="mt-3">Post ID: {{ linha.id }}</h5>
-                                
-                                <div class="d-flex flex-column border p-3 mb-2">
-                                    <div class="d-flex flex-column">
+                                <div class="Estrutura_do_Post d-flex flex-column border p-3 mb-2" style="background-color: #297272; padding: 10px 20px; border-radius: 20px;">
+
+                                    <!-- Informações do Post -->
+                                    <div class="d-flex flex-column mb-4" style="background-color: #399191; padding: 10px 20px; border-radius: 20px;">
+                                        <h4 class="w-100 text-center" style="color: white;">Post: {{ linha.id }}</h4>
                                         <p><strong>Mensagem:</strong> {{ linha.mensagem }}</p>
+                                        
+                                        {% if linha.imagem_url %}
+                                            <img src="{{ linha.imagem_url }}" alt="Imagem do post" class="img-fluid mb-3">
+                                        {% endif %}
+
                                         <p><strong>Usuário:</strong> {{ linha.user.nome }}</p>
                                     </div>
-                                    
-                                    <form action="{{ url_for('comentar_post', post_id=linha.id) }}" method="POST" class="mt-2">
-                                        <div class="form-group">
-                                            <textarea name="conteudo" class="form-control" placeholder="Adicione um comentário..." required></textarea>
+
+                                    <!-- Estrutura dos Comentários do Post -->
+                                    <div class="Comentario_div" style="background-color: #D2D2AC; padding: 10px 20px; border-radius: 20px;">
+                                        <h4 class="w-100 text-center mt-3 mb-4" style="color: white;">Comentários</h4>
+
+                                        <!-- Formulário dos Comentários -->
+                                        <form action="{{ url_for('comentar_post', post_id=linha.id) }}" method="POST" class="mt-2">
+                                            <div class="form-group">
+                                                <textarea name="conteudo" class="form-control" placeholder="Adicione um comentário..." required></textarea>
+                                                <button type="submit" class="btn btn-warning mt-2 mb-3">Comentar</button>
+                                            </div>
+                                            <hr style="border: 1px solid white;">
+                                        </form>
+
+                                        <!-- Estrutura Visualização dos Comentários -->
+                                        <div style="background-color: #D2D2AC; padding: 10px 20px; border-radius: 20px; color: white;">
+                                            {% if linha.comentarios|length == 0 %}
+                                                <p>Não existe nenhum comentário</p>
+                                            {% else %}
+                                                {% for comentario in linha.comentarios %}
+                                                    <div class="border p-2 mb-2" style="border-radius: 10px;">
+                                                        <p style="padding: 10px 10px 0px 10px;">
+                                                            {{ comentario.conteudo }} <br><br>
+                                                            <small>Comentário feito por: <strong>{{ comentario.user.nome }}</strong></small> <br>
+                                                        </p>
+                                                        {% if comentario.user_id == current_user.id %}
+                                                            <div class="actions d-flex">
+                                                                <a href="{{ url_for('editar_comentario', comentario_id=comentario.id) }}" class="btn btn-primary btn-sm mb-2" style="width: auto;">Editar</a>
+                                                                <form action="{{ url_for('excluir_comentario', comentario_id=comentario.id) }}" method="POST" style="display:inline;">
+                                                                    <input type="hidden" name="_method" value="DELETE">
+                                                                    <button type="submit" class="btn btn-danger btn-sm" style="width: auto;">Excluir</button>
+                                                                </form>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
                                         </div>
-                                        <button type="submit" class="btn btn-warning mt-2 mb-3">Comentar</button>
-                                    </form>
-                                    <div style="background-color: #297272; padding: 10px 20px 20px 20px; color: white; border-radius: 20px;">
-                                        <h5 class="w-100 text-center mt-3 mb-4">Comentários</h5>
-                                        {% if linha.comentarios|length == 0 %}
-                                            <p>Não existe nenhum comentário</p>
-                                        {% else %}
-                                            {% for comentario in linha.comentarios %}
-                                                
-                                                <!-- Visulização Comentários -->
-                                                <div class="border p-2 mb-2" style="border-radius: 10px;">
-                                                    <p style="padding: 10px 10px 0px 10px;">
-                                                        {{ comentario.conteudo }} <br><br>
-                                                        <small>Comentário feito por: <strong>{{ comentario.user.nome }}</strong></small> <br>
-                                                    </p>
-    
-                                                    <!-- Botões de ação Comentários -->
-                                                    {% if comentario.user_id == current_user.id %}
-                                                        <div class="actions d-flex">
-                                                            <a href="{{ url_for('editar_comentario', comentario_id=comentario.id) }}" class="btn btn-primary btn-sm mb-2" style="width: auto;">Editar</a>
-                                                            
-                                                            <form action="{{ url_for('excluir_comentario', comentario_id=comentario.id) }}" method="POST" style="display:inline;">
-                                                                <input type="hidden" name="_method" value="DELETE">
-                                                                <button type="submit" class="btn btn-danger btn-sm" style="width: auto;">Excluir</button>
-                                                            </form>
-                                                        </div>
-                                                    {% endif %}
-                                                </div>
-                                            {% endfor %}
-                                        {% endif %}
                                     </div>
                                 </div>
 
@@ -61,7 +69,6 @@
                                 <div class="actions d-flex">
                                     {% if linha.user.id == current_user.id %}
                                         <a href="{{ url_for('editar_post', post_id=linha.id) }}" class="btn btn-primary btn-sm mb-2" style="width: auto;">Editar</a>
-                                        
                                         <form action="{{ url_for('excluir_post', post_id=linha.id) }}" method="POST" style="display:inline;">
                                             <input type="hidden" name="_method" value="DELETE">
                                             <button type="submit" class="btn btn-danger btn-sm" style="width: auto;">Excluir</button>
