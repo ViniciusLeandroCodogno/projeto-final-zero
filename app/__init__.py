@@ -1,4 +1,4 @@
-from flask import Flask, current_app
+from flask import Flask, current_app, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt

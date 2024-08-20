@@ -1,8 +1,8 @@
-from app import app, db
-from flask import render_template, send_from_directory, url_for, redirect, request
+from app import app, db, bcrypt
+from flask import render_template, send_from_directory, url_for, redirect, request, flash
 from app.forms import userForm, loginForm, postForm, petgramForm
 from flask_login import login_user, logout_user, current_user
-from app.models import Post, Comentario, Petgram, ComentarioPetgram
+from app.models import Post, Comentario, Petgram, ComentarioPetgram, User
 from werkzeug.utils import secure_filename
 from flask import current_app
 import os
@@ -21,12 +21,21 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
+    return render_template('index.html')
+
+@app.route('/login/', methods=['GET', 'POST'])
+def login():
     form = loginForm()
     if form.validate_on_submit():
-        user = form.login()
-        login_user(user, remember=True)
-        return redirect(url_for('homepage'))
-    return render_template('index.html', form=form)
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.senha, form.senha.data):
+            login_user(user, remember=True)
+            flash('Login realizado com sucesso!', 'success')
+            return redirect(url_for('postNovo'))
+        else:
+            flash('Falha no Login. Verifique seu e-mail e senha', 'danger')
+            return redirect(url_for('login'))
+    return render_template('login.html', form=form)
 
 @app.route('/cadastro/', methods=['GET', 'POST'])
 def cadastro():
@@ -40,7 +49,7 @@ def cadastro():
 @app.route('/sair/')
 def logout():
     logout_user()
-    return redirect(url_for('homepage'))
+    return redirect(url_for('login'))
 
 @app.route('/post/novo/', methods=['GET', 'POST'])
 def postNovo():

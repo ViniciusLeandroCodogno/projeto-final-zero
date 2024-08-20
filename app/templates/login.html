@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %} 
+
+<div class="container">
+    
+    {% include 'nave.html' %}
+    <hr>
+
+    <div>
+        <form action="" method="post" class="row mt-4 p-4 round border shadow">
+            <h2 class="login-text" style="margin-bottom: 20px;">Antes de tudo, faça o seu login</h2>
+            {{form.csrf_token}}
+ 
+            {{form.email(class="form-control", placeholder="Digite seu E-mail...")}}
+            
+            {{form.senha(class="form-control", placeholder="Digite sua senha...", style="margin-top: 20px;")}}
+ 
+            {{form.btnSubmit(class="btn btn-warning col-12 mt-3")}}
+            
+            <div class="login-text-cadastro1">
+                Não tem cadastro?
+                <a href="{{url_for('cadastro')}}" class="login-text-cadastro2">Clique aqui e Faça o seu Cadastro</a>
+            </div>
+         </form>
+        <hr>
+    </div>
+</div>
+
+<style>
+    .login-text {
+        display: flex; 
+        justify-content: center; 
+        text-align: center;
+        font-family: "Poppins", sans-serif;
+    }
+
+    .form-login-email {
+        color: aliceblue;
+    }
+
+    .form-login-senha {
+        color: aliceblue;
+    }
+
+    .login-text-cadastro1 {
+        padding: 20px 0px 0px 0px;
+    }
+
+    .login-text-cadastro2 {
+        color: #D1A247;
+        padding: 0px 0px 0px 10px;
+    }
+</style>
+{% endblock %}
