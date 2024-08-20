@@ -1,5 +1,5 @@
 from app import app, db
-from flask import render_template, url_for, redirect, request
+from flask import render_template, send_from_directory, url_for, redirect, request
 from app.forms import userForm, loginForm, postForm, petgramForm
 from flask_login import login_user, logout_user, current_user
 from app.models import Post, Comentario, Petgram, ComentarioPetgram
