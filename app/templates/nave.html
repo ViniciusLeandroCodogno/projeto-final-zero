@@ -1,48 +1,112 @@
 {% if current_user.is_authenticated %}
-<nav class="navbar navbar-expand-lg">
-    <header>
-        <nav>
-            <ul class="navbar">
-                <li><a href="/">Página Inicial</a></li>
-                <li><a href="{{ url_for('postNovo') }}">Criar Post</a></li>
-                <li><a href="{{ url_for('postLista') }}">Blog</a></li>
-                <li><a href="{{ url_for('petgramNovo') }}">Criar PetPost</a></li>
-                <li><a href="{{ url_for('petgramLista') }}">Petgram</a></li>
-            </ul>
-            <div class="login-options" style="background-color: #297272; border-radius: 20px; padding: 6px 6px 6px 6px;">
-                <span class="btn bnt-primary" style="color: white;">{{current_user.nome}} {{current_user.sobrenome}}</span>
-                <a href="{{url_for('logout')}}" style="background-color: rgb(212, 212, 212); color: #297272; padding: 5px 10px 10px 10px; border-radius: 20px;">Sair</a>
-            </div>        
-        </nav>
-    </header>
-</nav>
-<style>
-nav {
-    display: flex;
-    position: sticky;
-    top: 0;
-    padding: 0;
-    align-items: center;
-    justify-content: space-between;
-    height: 80px;
-    background-color: #e9e9be;
-}
+    <nav class="navbar">
 
+        <!-- Logotipo -->
+        <div>
+            <img class="logotipo" src="static/images/Ezootic-Logo.png" alt="Logotipo">
+        </div>
 
-li {
-    list-style: none;
-}
+        <!-- NavBar     -->
+        <div class="navbar-links">
+            <a href="/">Página Inicial</a>
+            <a href="{{ url_for('postNovo') }}">Criar Post</a>
+            <a href="{{ url_for('postLista') }}">Blog</a>
+            <a href="{{ url_for('petgramNovo') }}">Criar PetPost</a>
+            <a href="{{ url_for('petgramLista') }}">Petgram</a>
+        </div>
 
-a {
-    text-decoration: none;
-    color: #D1A247;
-    font-family: "Kavoon", sans-serif;
-}
+        <!-- Login -->
+        <div class="login-options">
+            <span class="options-name btn bnt-primary" style="color: white;">{{current_user.nome}} {{current_user.sobrenome}}</span>
+            <a href="{{url_for('logout')}}">Sair</a>
+        </div>  
 
+    </nav>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');
 
-nav ul {
-    display: flex;
-    gap: 40px;
-}
-</style>
+        .navbar {
+
+            /* Espaçamentos */
+            display: flex;
+            justify-content: space-between;
+            align-content: center;
+            padding: 1% 1% 1% 1%;
+
+            /* Decoração */
+            background-color: #C6C697;
+
+        }
+
+        .logotipo {
+
+            /* Espaçamentos */
+            width: 7vw;
+            height: 5vh;
+        }
+
+        .navbar-links {
+
+            /* Espaçamentos */
+            display: flex;
+            gap: 20px;
+
+        }
+
+        .navbar-links a {
+
+            /* Decoração */
+            text-decoration: none;
+            color: #a57c2b;
+            font-family: "Poppins", sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .navbar-links a:hover {
+
+             /* Decoração */
+            color: #79591a;
+
+        }
+
+        .login-options {
+
+            /* Espaçamentos */
+            border-radius: 20px;
+            padding: 6px 6px 6px 6px;
+
+            /* Decoração */
+            background-color: #297272;
+            font-family: "Poppins", sans-serif;
+
+        }
+
+        .login-options a {
+
+            /* Espaçamentos */
+            padding: 7px;
+            margin: 5px 0px 5px 0px;
+            border-radius: 15px;
+            font-weight: 400;
+            font-size: 13px;
+            text-decoration: none;
+
+            /* Decoração */
+            background-color: rgb(212, 212, 212);
+            color: #297272;
+        }
+
+        .options-name {
+
+            /* Decoração */
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+    </style>
+
 {% endif %}
