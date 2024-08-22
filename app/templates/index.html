@@ -2,10 +2,81 @@
 {% block content %} 
 
     <!-- NavBar -->
+<div class="body">
 
     <nav>
         {% include 'nave.html' %}
     </nav>
 
-    
+    <div class="headline">
+
+        <div>
+            <h1 class="headline-tt">Tudo sobre </span><span style="color: #d1a247" ;>animais exóticos</span></h1>
+            <p class="headline-p">Descubra o mundo dos animais exóticos com nosso Blog! <br> Conecte-se com outros apaixonados e compartilhe suas aventuras no Petgram!</p>
+        </div>
+
+        <div class="headline-newslatter">
+            <p class="newslatter-p">Inscreva-se abaixo para receber conteúdos</p>
+            <input class="newslatter-input" placeholder="insira seu Email" required />
+            <button class="newslatter-button" type="submit">Quero receber</button>
+        </div>
+
+        <div class="headline-imagem">
+            <img src="" alt="">
+        </div>
+
+    </div>
+</div>
+
+    <style>
+        /* Fontes */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');
+
+        .headline {
+            padding: 5% 5% 0% 5%;
+        }
+
+        .headline-tt {
+            color: #297272;
+            font-family: 'Kavoon', sans-serif;
+            font-weight: 500;
+        }
+
+        .headline-p {
+            font-family: 'Poppins', sans-serif;
+            color: #297272;
+        }
+
+        .newslatter-p {
+            font-family: 'Poppins', sans-serif;
+            color: #297272;
+        }
+
+        .newslatter-input {
+            padding: 1% 0% 1% 1%;
+            border-radius: 20px 0px 0px 20px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 2vb;
+            background-color: #D2D2AC;
+            border: 1px solid #d1a247;
+
+        }
+
+        .newslatter-button {
+            padding: 1.1% 1% 1.1% 1%;
+            border-radius: 0px 20px 20px 0px;
+            border-style: none;
+            background-color: #297272;   
+            font-family: 'Poppins', sans-serif;
+            font-size: 2vh;
+            color: white;
+            margin-left: -1%;
+
+        }
+
+        .body{
+            background-color: #D2D2AC;
+        }
+    </style>
 {% endblock %}
