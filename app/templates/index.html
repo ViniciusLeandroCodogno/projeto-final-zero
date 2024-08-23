@@ -2,7 +2,7 @@
 {% block content %} 
 
     <!-- NavBar -->
-<div class="body">
+<div alt="Principal">
 
     <nav>
         {% include 'nave.html' %}
@@ -13,70 +13,143 @@
         <div>
             <h1 class="headline-tt">Tudo sobre </span><span style="color: #d1a247" ;>animais exóticos</span></h1>
             <p class="headline-p">Descubra o mundo dos animais exóticos com nosso Blog! <br> Conecte-se com outros apaixonados e compartilhe suas aventuras no Petgram!</p>
-        </div>
 
-        <div class="headline-newslatter">
+            <!-- Newslatter -->
             <p class="newslatter-p">Inscreva-se abaixo para receber conteúdos</p>
             <input class="newslatter-input" placeholder="insira seu Email" required />
             <button class="newslatter-button" type="submit">Quero receber</button>
         </div>
 
         <div class="headline-imagem">
-            <img src="" alt="">
+            <img src="static/images/Guaxi.png" alt="Capivara">
         </div>
 
     </div>
-</div>
+
+    <h1 style="text-align: center;">Destaques Ezooticos</h1>
+    <div class="destaques-ezooticos">
+        <!-- Destaques da semana -->
+        <div class="destaques-da-semana">
+            <div>
+                <h2 class="dest-sem-h1">Destaques da semana</h2>
+    
+                <div class="dest-1">
+                    <p>Tudo o que você precisa saber sobre cobras</p>
+                    <img src="" alt="">
+                </div>
+            
+                <div class="dest-2">
+                    <p>A vida da ave na amazônia</p>
+                    <img src="" alt="">
+                </div>
+                    
+                <div class="dest-3">
+                    <p>Cobra se torna o animal mais perigoso</p>
+                    <img src="" alt="">
+                </div>
+            </div>
+        </div>    
+            <div>
+
+                <div>
+                    <h1>Como criar um blog na Ezooticos?</h1>
+                    <p>Criar um blog no Ezooticos não é uma <br> tarefa qualquer, necessita de <br> dedicação e competência para criar <br> um blog consideravelmente <br> recomendável, clique no botão abaixo <br> e crie seu blog completo.</p>
+                </div>
+    
+                <button>
+                    <p>Crie seu blog agora</p>
+                </button>
+    
+            </div>
+         </div>
+    </div>
+
+
 
     <style>
         /* Fontes */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');
 
+        body {
+            background-color: #D2D2AC;
+        }
+
         .headline {
-            padding: 5% 5% 0% 5%;
+            padding: 8% 5% 0% 5%;
+            display: flex;
+            justify-content: space-between;
         }
 
         .headline-tt {
             color: #297272;
             font-family: 'Kavoon', sans-serif;
             font-weight: 500;
+            font-size: 50px;
         }
 
         .headline-p {
             font-family: 'Poppins', sans-serif;
+            font-size: 0.9vw;
             color: #297272;
+            padding-bottom: 2%;
+        }
+
+        .headline-imagem img {
+            padding: 0% 30% 30% 0%;
+            width: 30vw;
+            height: 60vh;
         }
 
         .newslatter-p {
             font-family: 'Poppins', sans-serif;
+            font-size: 0.8vw;
             color: #297272;
+
         }
 
         .newslatter-input {
-            padding: 1% 0% 1% 1%;
+            padding: 2% 0% 2% 2%;
             border-radius: 20px 0px 0px 20px;
             font-family: 'Poppins', sans-serif;
-            font-size: 2vb;
+            font-size: 1.5vb;
             background-color: #D2D2AC;
-            border: 1px solid #d1a247;
+            border: 2px solid #d1a247;
 
         }
 
         .newslatter-button {
-            padding: 1.1% 1% 1.1% 1%;
+            padding: 2.3% 2% 2.2% 2%;
             border-radius: 0px 20px 20px 0px;
             border-style: none;
             background-color: #297272;   
             font-family: 'Poppins', sans-serif;
-            font-size: 2vh;
+            font-size: 1.5vh;
             color: white;
             margin-left: -1%;
+        }
+
+        .destaques-da-semana {
+            background-color: #D9D9D9;  
+            padding: 5%;          
 
         }
 
-        .body{
-            background-color: #D2D2AC;
+        .dest-sem-h1 {
+            font-family: 'Kavoon', sans-serif;
+            opacity: 70%;
+            color: #E8EEEE;
+            padding: 0% 0% 0% 25%;
+            font-size: 1vw;
         }
+
+        .destaques-ezooticos {
+            background-color: #297272;
+            display: flex;
+            gap: 50%;
+            padding: 5%;
+        }
+
     </style>
+
 {% endblock %}
