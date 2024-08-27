@@ -26,13 +26,15 @@
 
     </div>
 
-    <h1 style="text-align: center;">Destaques Ezooticos</h1>
-    <div class="destaques-ezooticos">
-        <!-- Destaques da semana -->
-        <div class="destaques-da-semana">
-            <div>
-                <h2 class="dest-sem-h1">Destaques da semana</h2>
     
+
+    <div class="destaques-ezooticos">
+        <h1 class="destaques-ezooticos-h1">Destaques Ezooticos</h1>
+        <h2 class="destaques-semana-h1">Destaques da semana</h2>
+
+        <!-- Destaques da semana -->
+        <div class="destaques-semana">
+            <div class="dest-lista">
                 <div class="dest-1">
                     <p>Tudo o que você precisa saber sobre cobras</p>
                     <img src="" alt="">
@@ -48,20 +50,18 @@
                     <img src="" alt="">
                 </div>
             </div>
-        </div>    
+            
             <div>
-
-                <div>
-                    <h1>Como criar um blog na Ezooticos?</h1>
+                <div class="criar-blog">
+                    <h1>Como criar um blog na Ezootic?</h1>
                     <p>Criar um blog no Ezooticos não é uma <br> tarefa qualquer, necessita de <br> dedicação e competência para criar <br> um blog consideravelmente <br> recomendável, clique no botão abaixo <br> e crie seu blog completo.</p>
                 </div>
     
-                <button>
+                <button class="criar-blog-button">
                     <p>Crie seu blog agora</p>
                 </button>
-    
             </div>
-         </div>
+        </div>
     </div>
 
 
@@ -105,7 +105,6 @@
             font-family: 'Poppins', sans-serif;
             font-size: 0.8vw;
             color: #297272;
-
         }
 
         .newslatter-input {
@@ -115,7 +114,6 @@
             font-size: 1.5vb;
             background-color: #D2D2AC;
             border: 2px solid #d1a247;
-
         }
 
         .newslatter-button {
@@ -129,25 +127,98 @@
             margin-left: -1%;
         }
 
-        .destaques-da-semana {
-            background-color: #D9D9D9;  
-            padding: 5%;          
-
-        }
-
-        .dest-sem-h1 {
+        .destaques-ezooticos-h1 {
             font-family: 'Kavoon', sans-serif;
             opacity: 70%;
             color: #E8EEEE;
-            padding: 0% 0% 0% 25%;
-            font-size: 1vw;
+            padding: 4% 0% 0% 0%;
+            background-color: #297272;
+            text-align: center;
         }
 
         .destaques-ezooticos {
             background-color: #297272;
+        }
+
+        .destaques-semana {
             display: flex;
-            gap: 50%;
-            padding: 5%;
+            justify-content: space-between;
+            padding: 4%;   
+            background-color: #297272;      
+        }
+
+        .destaques-semana-h1 {
+            font-family: 'Kavoon', sans-serif;
+            font-size: 1.5vw;
+            opacity: 70%;
+            color: #E8EEEE;
+            padding: 3% 0% 0% 4%
+        }
+
+        .dest-lista {
+            margin: 0% 5% 0% 0%;
+            width: 65%;
+            height: 50%;
+        }
+
+        .dest-1 {
+            margin: 0% 0% 10% 0%;
+            padding: 5% 5% 0% 5%;
+            display: flex;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            border-radius: 10px;
+            background-color: rgba(74, 134, 134);
+            width: 100%;
+        }
+
+        .dest-2 {
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            border-radius: 10px;
+            background-color: rgba(74, 134, 134);
+            margin: 0% 0% 10% 0%;
+            padding: 5% 5% 0% 5%;
+            display: flex;
+        }
+
+        .dest-3 {
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            border-radius: 10px;
+            background-color: rgba(74, 134, 134);
+            padding: 5% 5% 0% 5%;
+            display: flex;
+        }
+
+        .criar-blog {
+            color: white;
+            border-radius: 10px;
+            background-color: rgba(74, 134, 134);
+            padding: 10%;
+            margin-bottom: 20px;
+        }
+
+        .criar-blog h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5vw;
+        }
+
+        .criar-blog p {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1vw;
+        }
+
+        .criar-blog-button {
+            border-radius: 10px;
+            padding: 5% 10% 0% 10%;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            background-color: transparent;
+            border: 2px solid #ffffff;
         }
 
     </style>
