@@ -1,226 +1,226 @@
-{% extends 'base.html' %}
-{% block content %} 
+    {% extends 'base.html' %}
+    {% block content %} 
 
-    <!-- NavBar -->
-<div alt="Principal">
+        <!-- NavBar -->
+    <div alt="Principal">
 
-    <nav>
-        {% include 'nave.html' %}
-    </nav>
+        <nav>
+            {% include 'nave/nave.html' %}
+        </nav>
 
-    <div class="headline">
+        <div class="headline">
 
-        <div>
-            <h1 class="headline-tt">Tudo sobre </span><span style="color: #d1a247" ;>animais exóticos</span></h1>
-            <p class="headline-p">Descubra o mundo dos animais exóticos com nosso Blog! <br> Conecte-se com outros apaixonados e compartilhe suas aventuras no Petgram!</p>
-
-            <!-- Newslatter -->
-            <p class="newslatter-p">Inscreva-se abaixo para receber conteúdos</p>
-            <input class="newslatter-input" placeholder="insira seu Email" required />
-            <button class="newslatter-button" type="submit">Quero receber</button>
-        </div>
-
-        <div class="headline-imagem">
-            <img src="static/images/Guaxi.png" alt="Capivara">
-        </div>
-
-    </div>
-
-    
-
-    <div class="destaques-ezooticos">
-        <h1 class="destaques-ezooticos-h1">Destaques Ezooticos</h1>
-        <h2 class="destaques-semana-h1">Destaques da semana</h2>
-
-        <!-- Destaques da semana -->
-        <div class="destaques-semana">
-            <div class="dest-lista">
-                <div class="dest-1">
-                    <p>Tudo o que você precisa saber sobre cobras</p>
-                    <img src="" alt="">
-                </div>
-            
-                <div class="dest-2">
-                    <p>A vida da ave na amazônia</p>
-                    <img src="" alt="">
-                </div>
-                    
-                <div class="dest-3">
-                    <p>Cobra se torna o animal mais perigoso</p>
-                    <img src="" alt="">
-                </div>
-            </div>
-            
             <div>
-                <div class="criar-blog">
-                    <h1>Como criar um blog na Ezootic?</h1>
-                    <p>Criar um blog no Ezooticos não é uma <br> tarefa qualquer, necessita de <br> dedicação e competência para criar <br> um blog consideravelmente <br> recomendável, clique no botão abaixo <br> e crie seu blog completo.</p>
+                <h1 class="headline-tt">Tudo sobre </span><span style="color: #d1a247" ;>animais exóticos</span></h1>
+                <p class="headline-p">Descubra o mundo dos animais exóticos com nosso Blog! <br> Conecte-se com outros apaixonados e compartilhe suas aventuras no Petgram!</p>
+
+                <!-- Newslatter -->
+                <p class="newslatter-p">Inscreva-se abaixo para receber conteúdos</p>
+                <input class="newslatter-input" placeholder="insira seu Email" required />
+                <button class="newslatter-button" type="submit">Quero receber</button>
+            </div>
+
+            <div class="headline-imagem">
+                <img src="static/images/Guaxi.png" alt="Capivara">
+            </div>
+
+        </div>
+
+        
+
+        <div class="destaques-ezooticos">
+            <h1 class="destaques-ezooticos-h1">Destaques Ezooticos</h1>
+            <h2 class="destaques-semana-h1">Destaques da semana</h2>
+
+            <!-- Destaques da semana -->
+            <div class="destaques-semana">
+                <div class="dest-lista">
+                    <div class="dest-1">
+                        <p>Tudo o que você precisa saber sobre cobras</p>
+                        <img src="" alt="">
+                    </div>
+                
+                    <div class="dest-2">
+                        <p>A vida da ave na amazônia</p>
+                        <img src="" alt="">
+                    </div>
+                        
+                    <div class="dest-3">
+                        <p>Cobra se torna o animal mais perigoso</p>
+                        <img src="" alt="">
+                    </div>
                 </div>
-    
-                <button class="criar-blog-button">
-                    <p>Crie seu blog agora</p>
-                </button>
+                
+                <div>
+                    <div class="criar-blog">
+                        <h1>Como criar um blog na Ezootic?</h1>
+                        <p>Criar um blog no Ezooticos não é uma <br> tarefa qualquer, necessita de <br> dedicação e competência para criar <br> um blog consideravelmente <br> recomendável, clique no botão abaixo <br> e crie seu blog completo.</p>
+                    </div>
+        
+                    <button class="criar-blog-button">
+                        <p>Crie seu blog agora</p>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
 
 
 
-    <style>
-        /* Fontes */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');
+        <style>
+            /* Fontes */
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');
 
-        body {
-            background-color: #D2D2AC;
-        }
+            body {
+                background-color: #D2D2AC;
+            }
 
-        .headline {
-            padding: 8% 5% 0% 5%;
-            display: flex;
-            justify-content: space-between;
-        }
+            .headline {
+                padding: 8% 5% 0% 5%;
+                display: flex;
+                justify-content: space-between;
+            }
 
-        .headline-tt {
-            color: #297272;
-            font-family: 'Kavoon', sans-serif;
-            font-weight: 500;
-            font-size: 50px;
-        }
+            .headline-tt {
+                color: #297272;
+                font-family: 'Kavoon', sans-serif;
+                font-weight: 500;
+                font-size: 50px;
+            }
 
-        .headline-p {
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.9vw;
-            color: #297272;
-            padding-bottom: 2%;
-        }
+            .headline-p {
+                font-family: 'Poppins', sans-serif;
+                font-size: 0.9vw;
+                color: #297272;
+                padding-bottom: 2%;
+            }
 
-        .headline-imagem img {
-            padding: 0% 30% 30% 0%;
-            width: 30vw;
-            height: 60vh;
-        }
+            .headline-imagem img {
+                padding: 0% 30% 30% 0%;
+                width: 30vw;
+                height: 60vh;
+            }
 
-        .newslatter-p {
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.8vw;
-            color: #297272;
-        }
+            .newslatter-p {
+                font-family: 'Poppins', sans-serif;
+                font-size: 0.8vw;
+                color: #297272;
+            }
 
-        .newslatter-input {
-            padding: 2% 0% 2% 2%;
-            border-radius: 20px 0px 0px 20px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.5vb;
-            background-color: #D2D2AC;
-            border: 2px solid #d1a247;
-        }
+            .newslatter-input {
+                padding: 2% 0% 2% 2%;
+                border-radius: 20px 0px 0px 20px;
+                font-family: 'Poppins', sans-serif;
+                font-size: 1.5vb;
+                background-color: #D2D2AC;
+                border: 2px solid #d1a247;
+            }
 
-        .newslatter-button {
-            padding: 2.3% 2% 2.2% 2%;
-            border-radius: 0px 20px 20px 0px;
-            border-style: none;
-            background-color: #297272;   
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.5vh;
-            color: white;
-            margin-left: -1%;
-        }
+            .newslatter-button {
+                padding: 2.3% 2% 2.2% 2%;
+                border-radius: 0px 20px 20px 0px;
+                border-style: none;
+                background-color: #297272;   
+                font-family: 'Poppins', sans-serif;
+                font-size: 1.5vh;
+                color: white;
+                margin-left: -1%;
+            }
 
-        .destaques-ezooticos-h1 {
-            font-family: 'Kavoon', sans-serif;
-            opacity: 70%;
-            color: #E8EEEE;
-            padding: 4% 0% 0% 0%;
-            background-color: #297272;
-            text-align: center;
-        }
+            .destaques-ezooticos-h1 {
+                font-family: 'Kavoon', sans-serif;
+                opacity: 70%;
+                color: #E8EEEE;
+                padding: 4% 0% 0% 0%;
+                background-color: #297272;
+                text-align: center;
+            }
 
-        .destaques-ezooticos {
-            background-color: #297272;
-        }
+            .destaques-ezooticos {
+                background-color: #297272;
+            }
 
-        .destaques-semana {
-            display: flex;
-            justify-content: space-between;
-            padding: 4%;   
-            background-color: #297272;      
-        }
+            .destaques-semana {
+                display: flex;
+                justify-content: space-between;
+                padding: 4%;   
+                background-color: #297272;      
+            }
 
-        .destaques-semana-h1 {
-            font-family: 'Kavoon', sans-serif;
-            font-size: 1.5vw;
-            opacity: 70%;
-            color: #E8EEEE;
-            padding: 3% 0% 0% 4%
-        }
+            .destaques-semana-h1 {
+                font-family: 'Kavoon', sans-serif;
+                font-size: 1.5vw;
+                opacity: 70%;
+                color: #E8EEEE;
+                padding: 3% 0% 0% 4%
+            }
 
-        .dest-lista {
-            margin: 0% 5% 0% 0%;
-            width: 65%;
-            height: 50%;
-        }
+            .dest-lista {
+                margin: 0% 5% 0% 0%;
+                width: 65%;
+                height: 50%;
+            }
 
-        .dest-1 {
-            margin: 0% 0% 10% 0%;
-            padding: 5% 5% 0% 5%;
-            display: flex;
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 500;
-            border-radius: 10px;
-            background-color: rgba(74, 134, 134);
-            width: 100%;
-        }
+            .dest-1 {
+                margin: 0% 0% 10% 0%;
+                padding: 5% 5% 0% 5%;
+                display: flex;
+                color: white;
+                font-family: 'Poppins', sans-serif;
+                font-weight: 500;
+                border-radius: 10px;
+                background-color: rgba(74, 134, 134);
+                width: 100%;
+            }
 
-        .dest-2 {
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 500;
-            border-radius: 10px;
-            background-color: rgba(74, 134, 134);
-            margin: 0% 0% 10% 0%;
-            padding: 5% 5% 0% 5%;
-            display: flex;
-        }
+            .dest-2 {
+                color: white;
+                font-family: 'Poppins', sans-serif;
+                font-weight: 500;
+                border-radius: 10px;
+                background-color: rgba(74, 134, 134);
+                margin: 0% 0% 10% 0%;
+                padding: 5% 5% 0% 5%;
+                display: flex;
+            }
 
-        .dest-3 {
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 500;
-            border-radius: 10px;
-            background-color: rgba(74, 134, 134);
-            padding: 5% 5% 0% 5%;
-            display: flex;
-        }
+            .dest-3 {
+                color: white;
+                font-family: 'Poppins', sans-serif;
+                font-weight: 500;
+                border-radius: 10px;
+                background-color: rgba(74, 134, 134);
+                padding: 5% 5% 0% 5%;
+                display: flex;
+            }
 
-        .criar-blog {
-            color: white;
-            border-radius: 10px;
-            background-color: rgba(74, 134, 134);
-            padding: 10%;
-            margin-bottom: 20px;
-        }
+            .criar-blog {
+                color: white;
+                border-radius: 10px;
+                background-color: rgba(74, 134, 134);
+                padding: 10%;
+                margin-bottom: 20px;
+            }
 
-        .criar-blog h1 {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.5vw;
-        }
+            .criar-blog h1 {
+                font-family: 'Poppins', sans-serif;
+                font-size: 1.5vw;
+            }
 
-        .criar-blog p {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1vw;
-        }
+            .criar-blog p {
+                font-family: 'Poppins', sans-serif;
+                font-size: 1vw;
+            }
 
-        .criar-blog-button {
-            border-radius: 10px;
-            padding: 5% 10% 0% 10%;
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            background-color: transparent;
-            border: 2px solid #ffffff;
-        }
+            .criar-blog-button {
+                border-radius: 10px;
+                padding: 5% 10% 0% 10%;
+                color: white;
+                font-family: 'Poppins', sans-serif;
+                background-color: transparent;
+                border: 2px solid #ffffff;
+            }
 
-    </style>
+        </style>
 
-{% endblock %}
+    {% endblock %}

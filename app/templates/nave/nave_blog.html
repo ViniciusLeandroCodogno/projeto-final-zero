@@ -1,0 +1,30 @@
+{% if current_user.is_authenticated %}
+    <nav class="navbar-blog">
+        <div class="navbarB-links">
+            <a href="{{ url_for('repteis') }}">Répteis</a>
+            <a href="{{ url_for('aquaticos') }}">Aquáticas</a>
+            <a href="{{ url_for('mamiferos') }}">Mamíferos</a>
+            <a href="{{ url_for('aves') }}">Aves</a>
+        </div>
+    </nav>
+    <style>
+        .navbar-blog {
+            background-color: #297272;
+        }
+
+        .navbarB-links {
+            display: flex;
+            gap: 50px;
+            justify-content: center;
+            padding: 1% 1% 1% 1%;    
+        }
+
+        .navbarB-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-family: 'Kavoon', sans-serif;
+            font-size: 1.1vw;
+        }
+
+    </style>
+{% endif %}

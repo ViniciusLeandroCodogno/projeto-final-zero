@@ -1,7 +1,7 @@
 from app import app, db, bcrypt
 from flask import render_template, send_from_directory, url_for, redirect, request, flash
 from app.forms import userForm, loginForm, postForm, petgramForm
-from flask_login import login_user, logout_user, current_user
+from flask_login import login_user, logout_user, current_user, login_required
 from app.models import Post, Comentario, Petgram, ComentarioPetgram, User
 from werkzeug.utils import secure_filename
 from flask import current_app
@@ -21,7 +21,10 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
-    return render_template('index.html')
+    if current_user.is_authenticated:
+        return render_template('index.html')
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -35,7 +38,7 @@ def login():
         else:
             flash('Falha no Login. Verifique seu e-mail e senha', 'danger')
             return redirect(url_for('login'))
-    return render_template('login.html', form=form)
+    return render_template('login/login.html', form=form)
 
 @app.route('/cadastro/', methods=['GET', 'POST'])
 def cadastro():
@@ -44,7 +47,7 @@ def cadastro():
         user = form.save()
         login_user(user, remember=True)
         return redirect(url_for('homepage'))
-    return render_template('cadastro.html', form=form)
+    return render_template('login/cadastro.html', form=form)
 
 @app.route('/sair/')
 def logout():
@@ -67,19 +70,20 @@ def postNovo():
         post = Post(
             mensagem=form.mensagem.data,
             user_id=current_user.id,
-            imagem=imagem
+            imagem=imagem,
+            categoria=form.categoria.data
         )
         db.session.add(post)
         db.session.commit()
         
         return redirect(url_for('postLista'))
     
-    return render_template('post_novo.html', form=form)
+    return render_template('blog/blog_post.html', form=form)
 
 @app.route('/post/lista/', methods=['GET', 'POST'])
 def postLista():
     posts = Post.query.all()
-    return render_template('post_lista.html', posts=posts)
+    return render_template('blog/blog.html', posts=posts)
 
 @app.route('/comentar/<int:post_id>', methods=['POST'])
 def comentar_post(post_id):
@@ -103,7 +107,7 @@ def editar_post(post_id):
         db.session.commit()
         return redirect(url_for('postLista'))
 
-    return render_template('editar_post.html', post=post)
+    return render_template('blog/blog_editar.html', post=post)
 
 @app.route('/excluir_post/<int:post_id>', methods=['POST'])
 def excluir_post(post_id):
@@ -156,12 +160,12 @@ def petgramNovo():
         
         return redirect(url_for('petgramLista'))
     
-    return render_template('petgram_novo.html', form=form)
+    return render_template('petgram/petgram_post.html', form=form)
 
 @app.route('/petgram/lista/', methods=['GET', 'POST'])
 def petgramLista():
     petgrams = Petgram.query.all()
-    return render_template('petgram_lista.html', petgrams=petgrams)
+    return render_template('petgram/petgram.html', petgrams=petgrams)
 
 @app.route('/comentar_petgram/<int:petgram_id>', methods=['POST'])
 def comentar_petgram(petgram_id):
@@ -185,7 +189,7 @@ def editar_petgram(petgram_id):
         db.session.commit()
         return redirect(url_for('petgramLista'))
 
-    return render_template('editar_petgram.html', petgram=petgram)
+    return render_template('petgram/petgram_editar.html', petgram=petgram)
 
 @app.route('/excluir_petgram/<int:petgram_id>', methods=['POST'])
 def excluir_petgram(petgram_id):
@@ -215,3 +219,24 @@ def excluir_comentario_petgram(comentario_id):
         db.session.delete(comentario)
         db.session.commit()
     return redirect(url_for('petgramLista'))
+
+@app.route('/repteis/')
+def repteis():
+    posts = Post.query.filter_by(categoria='Répteis').all()
+    return render_template('blog/blog_repteis.html', posts=posts)
+
+@app.route('/mamiferos/')
+def mamiferos():
+    posts = Post.query.filter_by(categoria='Mamíferos').all()
+    return render_template('blog/blog_mamiferos.html', posts=posts)
+
+@app.route('/aquaticos/')
+def aquaticos():
+    posts = Post.query.filter_by(categoria='Aquáticos').all()
+    return render_template('blog/blog_aquaticos.html', posts=posts)
+
+@app.route('/aves/')
+def aves():
+    posts = Post.query.filter_by(categoria='Aves').all()
+    return render_template('blog/blog_aves.html', posts=posts)
+

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+{% include 'nave/nave.html' %}
+
+    <div class="container">
+        <h3>Editar Petgram</h3>
+        <form action="{{ url_for('editar_petgram', petgram_id=petgram.id) }}" method="POST">
+            <div class="form-group">
+                <textarea name="mensagem" class="form-control" required>{{ petgram.mensagem }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Salvar</button>
+        </form>
+    </div>
+{% endblock %}

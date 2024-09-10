@@ -1,9 +1,9 @@
 from flask import current_app
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from werkzeug.utils import secure_filename
-from flask_wtf.file import FileField, FileRequired, FileAllowed
+from flask_wtf.file import FileField, FileAllowed
 from app import db, bcrypt
 from app.models import User, Post, Petgram
 import os
@@ -46,6 +46,12 @@ class loginForm(FlaskForm):
 class postForm(FlaskForm):
     mensagem = StringField('Mensagem', validators=[DataRequired()])
     imagem = FileField('Imagem', validators=[FileAllowed(['jpg', 'png'], 'Imagens apenas!')])
+    categoria = SelectField('Categoria', choices=[
+        ('Répteis', 'Répteis'),
+        ('Mamíferos', 'Mamíferos'),
+        ('Aves', 'Aves'),
+        ('Aquáticos', 'Aquáticos')
+    ], validators=[DataRequired()])
     btnSubmit = SubmitField('Enviar')
 
     def save(self, user_id):
@@ -59,7 +65,8 @@ class postForm(FlaskForm):
         post = Post(
             mensagem=self.mensagem.data,
             user_id=user_id,
-            imagem=imagem
+            imagem=imagem,
+            categoria=self.categoria.data 
         )
         db.session.add(post)
         db.session.commit()

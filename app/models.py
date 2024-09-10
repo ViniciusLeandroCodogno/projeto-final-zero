@@ -20,6 +20,10 @@ class Post(db.Model):
     mensagem = db.Column(db.String, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     imagem = db.Column(db.String, nullable=True)
+    categoria = db.Column(db.String(50), nullable=True)
+
+    def __repr__(self):
+        return f"Post('{self.mensagem}', '{self.imagem}', '{self.categoria}')"
 
 class Comentario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
