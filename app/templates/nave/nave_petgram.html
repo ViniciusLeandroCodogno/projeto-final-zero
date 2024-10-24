@@ -1,0 +1,30 @@
+{% if current_user.is_authenticated %}
+    <nav class="navbar-blog">
+        <div class="navbarP-links">
+            <a href="{{ url_for('repteis_petgram') }}">Répteis</a>
+            <a href="{{ url_for('aquaticos_petgram') }}">Aquáticas</a>
+            <a href="{{ url_for('mamiferos_petgram') }}">Mamíferos</a>
+            <a href="{{ url_for('aves_petgram') }}">Aves</a>
+        </div>
+    </nav>
+    <style>
+        .navbar-blog {
+            background-color: #297272;
+        }
+
+        .navbarP-links {
+            display: flex;
+            gap: 50px;
+            justify-content: center;
+            padding: 1% 1% 1% 1%;    
+        }
+
+        .navbarP-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-family: 'Kavoon', sans-serif;
+            font-size: 1.1vw;
+        }
+
+    </style>
+{% endif %}

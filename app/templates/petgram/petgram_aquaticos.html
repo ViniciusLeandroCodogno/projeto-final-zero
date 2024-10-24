@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'nave/nave.html' %}
+    {% include 'nave/nave_petgram.html' %}
+
+    <div>
+        <div class="d-flex flex-column border p-3 mb-2 rounded-3">
+            {% for petgram in petgrams %}
+            <p><strong>Mensagem:</strong> {{ petgram.mensagem }}</p>
+            <p><strong>Usuário:</strong> {{ petgram.user.nome }}</p>
+            <p><strong>Categoria:</strong> {{ petgram.categoria_petgram }}</p>
+            {% if petgram.imagem %}
+                <img style="width: 30vw; height: 50vh;" src="{{ url_for('static', filename='uploads/' ~ petgram.imagem) }}" alt="Imagem do Post" class="img-fluid mb-2">
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

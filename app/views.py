@@ -153,7 +153,9 @@ def petgramNovo():
         petgram = Petgram(
             mensagem=form.mensagem.data,
             user_id=current_user.id,
-            imagem=imagem
+            imagem=imagem,
+            categoria_petgram=form.categoria_petgram.data
+
         )
         db.session.add(petgram)
         db.session.commit()
@@ -239,4 +241,27 @@ def aquaticos():
 def aves():
     posts = Post.query.filter_by(categoria='Aves').all()
     return render_template('blog/blog_aves.html', posts=posts)
+
+
+# Nave Petgram
+
+@app.route('/repteis/petgram/')
+def repteis_petgram():
+    petgrams = Petgram.query.filter_by(categoria_petgram='Répteis').all()
+    return render_template('petgram/petgram_repteis.html', petgrams=petgrams)
+
+@app.route('/mamiferos/petgram/')
+def mamiferos_petgram():
+    petgrams = Petgram.query.filter_by(categoria_petgram='Mamíferos').all()
+    return render_template('petgram/petgram_mamiferos.html', petgrams=petgrams)
+
+@app.route('/aquaticos/petgram/')
+def aquaticos_petgram():
+    petgrams = Petgram.query.filter_by(categoria_petgram='Aquáticos').all()
+    return render_template('petgram/petgram_aquaticos.html', petgrams=petgrams)
+
+@app.route('/aves/petgram/')
+def aves_petgram():
+    petgrams = Petgram.query.filter_by(categoria_petgram='Aves').all()
+    return render_template('petgram/petgram_aves.html', petgrams=petgrams)
 

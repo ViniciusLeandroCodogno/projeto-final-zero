@@ -74,6 +74,12 @@ class postForm(FlaskForm):
 class petgramForm(FlaskForm):
     mensagem = StringField('Mensagem', validators=[DataRequired()])
     imagem = FileField('Imagem', validators=[FileAllowed(['jpg', 'png'], 'Imagens apenas!')])
+    categoria_petgram = SelectField('Categoria', choices=[
+        ('Répteis', 'Répteis'),
+        ('Mamíferos', 'Mamíferos'),
+        ('Aves', 'Aves'),
+        ('Aquáticos', 'Aquáticos')
+    ], validators=[DataRequired()])
     btnSubmit = SubmitField('Enviar')
 
     def save(self, user_id):
@@ -87,7 +93,9 @@ class petgramForm(FlaskForm):
         petgram = Petgram(
             mensagem=self.mensagem.data,
             user_id=user_id,
-            imagem=imagem
+            imagem=imagem,
+            categoria=self.categoria_petgram.data 
+
         )
         db.session.add(petgram)
         db.session.commit()
