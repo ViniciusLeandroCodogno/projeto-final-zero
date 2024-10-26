@@ -1,5 +1,6 @@
 from app import db, login_manager
 from flask_login import UserMixin
+from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -21,6 +22,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     imagem = db.Column(db.String, nullable=True)
     categoria = db.Column(db.String(50), nullable=True)
+    data_criacao = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return f"Post('{self.mensagem}', '{self.imagem}', '{self.categoria}')"
@@ -41,6 +43,7 @@ class Petgram(db.Model):
     comentarios = db.relationship('ComentarioPetgram', backref='petgram', lazy=True)
     imagem = db.Column(db.String, nullable=True)
     categoria_petgram = db.Column(db.String(50), nullable=True)
+    data_cricao = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return f"Post('{self.mensagem}', '{self.imagem}', '{self.categoria_petgram}')" 

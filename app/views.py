@@ -82,7 +82,7 @@ def postNovo():
 
 @app.route('/post/lista/', methods=['GET', 'POST'])
 def postLista():
-    posts = Post.query.all()
+    posts = Post.query.order_by(Post.data_criacao.desc()).limit(5).all()
     return render_template('blog/blog.html', posts=posts)
 
 @app.route('/comentar/<int:post_id>', methods=['POST'])
@@ -166,7 +166,7 @@ def petgramNovo():
 
 @app.route('/petgram/lista/', methods=['GET', 'POST'])
 def petgramLista():
-    petgrams = Petgram.query.all()
+    petgrams = Petgram.query.order_by(Petgram.data_cricao.desc()).limit(5).all()
     return render_template('petgram/petgram.html', petgrams=petgrams)
 
 @app.route('/comentar_petgram/<int:petgram_id>', methods=['POST'])

@@ -17,13 +17,37 @@
 
                                     <!-- Informações do Petgram -->
                                     <div class="petgram-info d-flex flex-column mb-4">
-                                        <h4 class="w-100 text-center text-white">Petgram: {{ linha.id }}</h4>
-                                        <p><strong>Mensagem:</strong> {{ linha.mensagem }}</p>
-                                        <p><strong>Usuário:</strong> {{ linha.user.nome }}</p>
-                                        <p><strong>Categoria:</strong> {{ linha.categoria_petgram }}</p>
+
+                                        <p class="user-container">
+                                            <div>
+                                                <strong>Usuário:</strong> {{ linha.user.nome }}
+                                            </div>
+                                            <div class="actions d-flex">
+                                                {% if linha.user.id == current_user.id %}
+                                                    <a href="{{ url_for('editar_petgram', petgram_id=linha.id) }}" class="btn btn-primary btn-sm me-2">
+                                                        <i class="ph ph-pencil-simple"></i>
+                                                    </a>
+                                                    <form action="{{ url_for('excluir_petgram', petgram_id=linha.id) }}" method="POST" style="display:inline;">
+                                                        <input type="hidden" name="_method" value="DELETE">
+                                                        <button type="submit" class="btn btn-danger btn-sm">
+                                                            <i class="ph ph-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                {% endif %}
+                                            </div>
+                                        </p>
+                                        <p><strong>Categoria:</strong> {{ linha.categoria_petgram }}</p> 
                                         {% if linha.imagem %}
                                         <img src="{{ url_for('static', filename='uploads/' ~ linha.imagem) }}" alt="Imagem do Post" class="img-fluid mb-2">
                                         {% endif %}
+                                        <p><strong>Mensagem:</strong> {{ linha.mensagem }}</p>
+                                        <p><em>Publicado em 
+                                            {% if linha.data_criacao %}
+                                                {{ linha.data_criacao.strftime('%d/%m/%Y %H:%M') }}
+                                            {% else %}
+                                                Data não disponível
+                                            {% endif %}
+                                        </em></p>   
                                     </div>
 
                                     <!-- Comentários do Petgram -->
@@ -64,18 +88,8 @@
                                             {% endif %}
                                         </div>
                                     </div>
-                                </div>
-
-                                <!-- Botões de Ação do Petgram -->
-                                <div class="actions d-flex">
-                                    {% if linha.user.id == current_user.id %}
-                                        <a href="{{ url_for('editar_petgram', petgram_id=linha.id) }}" class="btn btn-primary btn-sm me-2">Editar</a>
-                                        <form action="{{ url_for('excluir_petgram', petgram_id=linha.id) }}" method="POST" style="display:inline;">
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
-                                        </form>
-                                    {% endif %}
-                                </div>
+                                </div>                         
+                                
                             </td>
                         </tr>
                         {% endfor %}
@@ -84,4 +98,16 @@
             </div>
         </div>
     </div>
+    <style>
+        .user-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    
+        .actions {
+            margin-left: auto; /* Isso empurra a div para o lado direito */
+        }
+    </style>
+    
 {% endblock %}
