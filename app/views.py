@@ -22,7 +22,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
     if current_user.is_authenticated:
-        return render_template('index.html')
+        posts = Post.query.order_by(Post.data_criacao.desc()).limit(3).all()
+        return render_template('index.html', posts=posts)
     else:
         return redirect(url_for('login'))
 

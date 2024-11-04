@@ -45,7 +45,7 @@ class loginForm(FlaskForm):
 
 class postForm(FlaskForm):
     mensagem = StringField('Mensagem', validators=[DataRequired()])
-    imagem = FileField('Imagem', validators=[FileAllowed(['jpg', 'png'], 'Imagens apenas!')])
+    imagem = FileField('Imagem', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Imagens apenas!')])
     categoria = SelectField('Categoria', choices=[
         ('Répteis', 'Répteis'),
         ('Mamíferos', 'Mamíferos'),
