@@ -20,7 +20,7 @@
 
                                         <p class="user-container">
                                             <div>
-                                                <strong>Usuário:</strong> {{ linha.user.nome }}
+                                                <img src="{{ url_for('static', filename='uploads/' ~ current_user.foto_perfil) }}" alt="Foto de Perfil" class="img-fluid" style="width: 100px; height: 100px; border-radius: 50%;"> <strong>Usuário:</strong> {{ linha.user.nome }}
                                             </div>
                                             <div class="actions d-flex">
                                                 {% if linha.user.id == current_user.id %}

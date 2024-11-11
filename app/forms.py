@@ -3,10 +3,14 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from werkzeug.utils import secure_filename
-from flask_wtf.file import FileField, FileAllowed
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 from app import db, bcrypt
 from app.models import User, Post, Petgram
 import os
+
+class FotoPerfilForm(FlaskForm):
+    foto = FileField('Foto de Perfil', validators=[FileRequired()])
+    submit = SubmitField('Atualizar Foto')
 
 class userForm(FlaskForm):
     nome = StringField('Nome', validators=[DataRequired()])

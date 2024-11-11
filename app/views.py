@@ -1,17 +1,39 @@
 from app import app, db, bcrypt
-from flask import render_template, send_from_directory, url_for, redirect, request, flash
-from app.forms import userForm, loginForm, postForm, petgramForm
+from flask import render_template, send_from_directory, url_for, redirect, request, flash, current_app
+from app.forms import userForm, loginForm, postForm, petgramForm, FotoPerfilForm
 from flask_login import login_user, logout_user, current_user, login_required
 from app.models import Post, Comentario, Petgram, ComentarioPetgram, User
 from werkzeug.utils import secure_filename
 from flask import current_app
 import os
 
+
 UPLOAD_FOLDER = os.path.join(app.root_path, 'static','uploads')
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def salvar_foto(foto):
+    nome_arquivo = secure_filename(foto.filename)
+    caminho = os.path.join(current_app.root_path, 'static/uploads', nome_arquivo)
+    foto.save(caminho)
+    return nome_arquivo
+
+@app.route("/atualizar_foto/", methods=['GET', 'POST'])
+@login_required
+def atualizar_foto():
+    form = FotoPerfilForm()
+    if form.validate_on_submit():
+        foto = form.foto.data
+        nome_foto = salvar_foto(foto)
+        
+        # Atualiza a foto de perfil do usuário no banco de dados
+        current_user.foto_perfil = nome_foto
+        db.session.commit()
+        flash('Foto de perfil atualizada!', 'success')
+        return redirect(url_for('postLista'))  # Redireciona para a página de perfil ou onde for necessário
+    return render_template('atualizar_foto.html', form=form)
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):

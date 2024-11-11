@@ -15,6 +15,10 @@ class User(db.Model, UserMixin):
     posts = db.relationship('Post', backref='user', lazy=True)
     petgrams = db.relationship('Petgram', backref='user', lazy=True)
     comentarios_petgram = db.relationship('ComentarioPetgram', backref='user', lazy=True)
+    foto_perfil = db.Column(db.String(120), default='default.jpg')
+
+    def __repr__(self):
+        return f"User('{self.id}', '{self.nome}', '{self.sobrenome}', '{self.email}', '{self.foto_perfil}')"
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
