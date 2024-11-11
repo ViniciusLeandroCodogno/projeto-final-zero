@@ -35,8 +35,7 @@
                                                     </form>
                                                 {% endif %}
                                             </div>
-                                        </p>
-                                        <p><strong>Categoria:</strong> {{ linha.categoria_petgram }}</p> 
+                                            <p><strong>Categoria:</strong> {{ linha.categoria_petgram }}</p> 
                                         {% if linha.imagem %}
                                         <img src="{{ url_for('static', filename='uploads/' ~ linha.imagem) }}" alt="Imagem do Post" class="img-fluid mb-2">
                                         {% endif %}
@@ -47,7 +46,9 @@
                                             {% else %}
                                                 Data não disponível
                                             {% endif %}
-                                        </em></p>   
+                                        </em></p> 
+                                        </p>
+                                          
                                     </div>
 
                                     <!-- Comentários do Petgram -->

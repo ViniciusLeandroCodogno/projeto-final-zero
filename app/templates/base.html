@@ -5,13 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon/favicon-96x96.png') }}" type="image/png" sizes="96x96">
     <style>
+    
 
         .alert-container {
             margin: 20px 0px 0px 0px;
         }
 
     </style>
+    <title>
+
+        {% block titulo %}
+        Ezootic
+        {% endblock %}
+
+    </title>
 </head>
 <body>
     {% with messages = get_flashed_messages(with_categories=true) %}

@@ -16,8 +16,9 @@
                             <!-- Estrutura do Post -->
                             <div class="post-estrutura d-flex flex-column border p-3 mb-2 rounded-3">
                                 <h4 class="text-center text-white"></h4>
-                                <p><strong>Mensagem:</strong> {{ linha.mensagem }}</p>
                                 <p><strong>Usuário:</strong> {{ linha.user.nome }}</p>
+                                <p><strong>Mensagem:</strong> {{ linha.mensagem }}</p>
+                                
                                 <p><strong>Categoria:</strong> {{ linha.categoria }}</p>
                                 <p><em>Publicado em 
                                     {% if linha.data_criacao %}
