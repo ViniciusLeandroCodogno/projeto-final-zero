@@ -3,50 +3,66 @@
 {% include 'nave/nave.html' %}
 
 <div class="container">
-    <hr>
     <div>
-        <form action="" method="post" class="row mt-4 p-4 round border shadow">
-            <h2 class="login-text" style="margin-bottom: 20px;">Antes de tudo, faça o seu login</h2>
+        <form action="" method="post" class="row mt-4 p-4 rounded shadow-lg" style="background-color: #E8EEEE;">
+            <h2 class="login-text" style="margin-bottom: 20px; color: #297272; font-weight: bold; text-align: center;">Antes de tudo, faça o seu login</h2>
             {{form.csrf_token}}
- 
-            {{form.email(class="form-control", placeholder="Digite seu E-mail...")}}
-            
-            {{form.senha(class="form-control", placeholder="Digite sua senha...", style="margin-top: 20px;")}}
- 
-            {{form.btnSubmit(class="btn btn-warning col-12 mt-3")}}
-            
-            <div class="login-text-cadastro1">
-                Não tem cadastro?
-                <a href="{{url_for('cadastro')}}" class="login-text-cadastro2">Clique aqui e Faça o seu Cadastro</a>
+
+            <div class="mb-3">
+                {{form.email(class="form-control", placeholder="Digite seu E-mail...", style="background-color: #D9D9D9;")}}
             </div>
-         </form>
+            
+            <div class="mb-3">
+                {{form.senha(class="form-control", placeholder="Digite sua senha...", style="background-color: #D9D9D9; margin-top: 20px;")}}
+            </div>
+
+            <div>
+                {{form.btnSubmit(class="btn btn-warning col-12 mt-3", style="background-color: #D1A247; border-color: #D1A247;")}}
+            </div>
+            
+            <div class="login-text-cadastro1 mt-3 text-center">
+                Não tem cadastro?
+                <a href="{{url_for('cadastro')}}" class="login-text-cadastro2" style="color: #297272; text-decoration: none; font-weight: bold;">Clique aqui e Faça o seu Cadastro</a>
+            </div>
+        </form>
         <hr>
     </div>
 </div>
 
 <style>
     .login-text {
-        display: flex; 
-        justify-content: center; 
-        text-align: center;
         font-family: "Poppins", sans-serif;
-    }
-
-    .form-login-email {
-        color: aliceblue;
-    }
-
-    .form-login-senha {
-        color: aliceblue;
+        color: #297272;
     }
 
     .login-text-cadastro1 {
-        padding: 20px 0px 0px 0px;
+        padding: 20px 0px;
     }
 
     .login-text-cadastro2 {
-        color: #D1A247;
-        padding: 0px 0px 0px 10px;
+        color: #297272;
+        padding-left: 10px;
+        font-weight: bold;
     }
+
+    .btn-warning {
+        background-color: #D1A247;
+        border-color: #D1A247;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 10px;
+    }
+    
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 99vh;  /* Define a altura da tela inteira */
+        padding: 20px;  /* Adiciona algum espaço de borda */
+    }
+
 </style>
+
 {% endblock %}

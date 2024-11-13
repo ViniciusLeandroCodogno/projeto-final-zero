@@ -1,39 +1,17 @@
 from app import app, db, bcrypt
 from flask import render_template, send_from_directory, url_for, redirect, request, flash, current_app
-from app.forms import userForm, loginForm, postForm, petgramForm, FotoPerfilForm
+from app.forms import userForm, loginForm, postForm, petgramForm
 from flask_login import login_user, logout_user, current_user, login_required
 from app.models import Post, Comentario, Petgram, ComentarioPetgram, User
 from werkzeug.utils import secure_filename
-from flask import current_app
 import os
 
 
-UPLOAD_FOLDER = os.path.join(app.root_path, 'static','uploads')
+UPLOAD_FOLDER = os.path.join(app.root_path, 'static', 'uploads')
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-def salvar_foto(foto):
-    nome_arquivo = secure_filename(foto.filename)
-    caminho = os.path.join(current_app.root_path, 'static/uploads', nome_arquivo)
-    foto.save(caminho)
-    return nome_arquivo
-
-@app.route("/atualizar_foto/", methods=['GET', 'POST'])
-@login_required
-def atualizar_foto():
-    form = FotoPerfilForm()
-    if form.validate_on_submit():
-        foto = form.foto.data
-        nome_foto = salvar_foto(foto)
-        
-        # Atualiza a foto de perfil do usuário no banco de dados
-        current_user.foto_perfil = nome_foto
-        db.session.commit()
-        flash('Foto de perfil atualizada!', 'success')
-        return redirect(url_for('postLista'))  # Redireciona para a página de perfil ou onde for necessário
-    return render_template('atualizar_foto.html', form=form)
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -47,6 +25,7 @@ def homepage():
         posts = Post.query.order_by(Post.data_criacao.desc()).limit(3).all()
         return render_template('index.html', posts=posts)
     else:
+        flash('Por favor, faça login para acessar a página inicial.', 'warning')
         return redirect(url_for('login'))
 
 @app.route('/login/', methods=['GET', 'POST'])
@@ -69,12 +48,14 @@ def cadastro():
     if form.validate_on_submit():
         user = form.save()
         login_user(user, remember=True)
+        flash('Cadastro realizado com sucesso!', 'success')
         return redirect(url_for('homepage'))
     return render_template('login/cadastro.html', form=form)
 
 @app.route('/sair/')
 def logout():
     logout_user()
+    flash('Você saiu com sucesso.', 'info')
     return redirect(url_for('login'))
 
 @app.route('/post/novo/', methods=['GET', 'POST'])
@@ -87,7 +68,6 @@ def postNovo():
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(UPLOAD_FOLDER, filename))
-                
                 imagem = filename
         
         post = Post(
@@ -99,6 +79,7 @@ def postNovo():
         db.session.add(post)
         db.session.commit()
         
+        flash('Post criado com sucesso!', 'success')
         return redirect(url_for('postLista'))
     
     return render_template('blog/blog_post.html', form=form)
@@ -117,38 +98,57 @@ def comentar_post(post_id):
     db.session.add(comentario)
     db.session.commit()
     
+    flash('Comentário adicionado com sucesso!', 'success')
     return redirect(url_for('postLista'))
 
 @app.route('/editar_post/<int:post_id>', methods=['GET', 'POST'])
 def editar_post(post_id):
     post = Post.query.get_or_404(post_id)
+    
     if post.user_id != current_user.id:
-        return redirect(url_for('postLista')) 
-
-    if request.method == 'POST':
-        post.mensagem = request.form.get('mensagem')
-        db.session.commit()
+        flash('Você não tem permissão para editar este post.', 'danger')
         return redirect(url_for('postLista'))
 
-    return render_template('blog/blog_editar.html', post=post)
+    form = postForm(obj=post)
+
+    if form.validate_on_submit():
+        post.mensagem = form.mensagem.data
+        post.categoria = form.categoria.data
+        
+        if 'imagem' in request.files:
+            file = request.files['imagem']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+                post.imagem = filename
+
+        db.session.commit()
+        flash('Post atualizado com sucesso!', 'success')
+        return redirect(url_for('postLista'))
+
+    return render_template('blog/blog_editar.html', form=form, post=post)
 
 @app.route('/excluir_post/<int:post_id>', methods=['POST'])
 def excluir_post(post_id):
     post = Post.query.get_or_404(post_id)
     if post.user_id == current_user.id:
+        Comentario.query.filter_by(post_id=post.id).delete()
         db.session.delete(post)
         db.session.commit()
+        flash('Post excluído com sucesso!', 'success')
     return redirect(url_for('postLista'))
 
 @app.route('/editar_comentario/<int:comentario_id>', methods=['GET', 'POST'])
 def editar_comentario(comentario_id):
     comentario = Comentario.query.get_or_404(comentario_id)
     if comentario.user_id != current_user.id:
-        return redirect(url_for('postLista')) 
+        flash('Você não tem permissão para editar este comentário.', 'danger')
+        return redirect(url_for('postLista'))
 
     if request.method == 'POST':
         comentario.conteudo = request.form.get('conteudo')
         db.session.commit()
+        flash('Comentário atualizado com sucesso!', 'success')
         return redirect(url_for('postLista'))
 
     return render_template('editar_comentario.html', comentario=comentario)
@@ -159,6 +159,7 @@ def excluir_comentario(comentario_id):
     if comentario.user_id == current_user.id:
         db.session.delete(comentario)
         db.session.commit()
+        flash('Comentário excluído com sucesso!', 'success')
     return redirect(url_for('postLista'))
 
 @app.route('/petgram/', methods=['GET', 'POST'])
@@ -178,18 +179,18 @@ def petgramNovo():
             user_id=current_user.id,
             imagem=imagem,
             categoria_petgram=form.categoria_petgram.data
-
         )
         db.session.add(petgram)
         db.session.commit()
         
+        flash('Petgram criado com sucesso!', 'success')
         return redirect(url_for('petgramLista'))
     
     return render_template('petgram/petgram_post.html', form=form)
 
 @app.route('/petgram/lista/', methods=['GET', 'POST'])
 def petgramLista():
-    petgrams = Petgram.query.order_by(Petgram.data_cricao.desc()).limit(5).all()
+    petgrams = Petgram.query.order_by(Petgram.data_criacao.desc()).limit(5).all()
     return render_template('petgram/petgram.html', petgrams=petgrams)
 
 @app.route('/comentar_petgram/<int:petgram_id>', methods=['POST'])
@@ -201,38 +202,58 @@ def comentar_petgram(petgram_id):
     db.session.add(comentario)
     db.session.commit()
     
+    flash('Comentário adicionado com sucesso!', 'success')
     return redirect(url_for('petgramLista'))
 
 @app.route('/editar_petgram/<int:petgram_id>', methods=['GET', 'POST'])
 def editar_petgram(petgram_id):
     petgram = Petgram.query.get_or_404(petgram_id)
     if petgram.user_id != current_user.id:
-        return redirect(url_for('petgram_lista')) 
+        flash('Você não tem permissão para editar este petgram.', 'danger')
+        return redirect(url_for('petgramLista'))
 
     if request.method == 'POST':
         petgram.mensagem = request.form.get('mensagem')
+        petgram.categoria = request.form.get('categoria')
+
+        # Verifica se há uma nova imagem
+        if 'imagem' in request.files:
+            imagem = request.files['imagem']
+            if imagem:
+                # Lógica para salvar a imagem
+                imagem_filename = secure_filename(imagem.filename)
+                imagem.save(os.path.join(app.config['UPLOAD_FOLDER'], imagem_filename))
+                petgram.imagem = imagem_filename
+
         db.session.commit()
+        flash('Petgram atualizado com sucesso!')
         return redirect(url_for('petgramLista'))
 
     return render_template('petgram/petgram_editar.html', petgram=petgram)
+
+
 
 @app.route('/excluir_petgram/<int:petgram_id>', methods=['POST'])
 def excluir_petgram(petgram_id):
     petgram = Petgram.query.get_or_404(petgram_id)
     if petgram.user_id == current_user.id:
+        ComentarioPetgram.query.filter_by(petgram_id=petgram.id).delete()
         db.session.delete(petgram)
         db.session.commit()
+        flash('Petgram excluído com sucesso!', 'success')
     return redirect(url_for('petgramLista'))
 
 @app.route('/editar_comentario_petgram/<int:comentario_id>', methods=['GET', 'POST'])
 def editar_comentario_petgram(comentario_id):
     comentario = ComentarioPetgram.query.get_or_404(comentario_id)
     if comentario.user_id != current_user.id:
-        return redirect(url_for('petgram_lista')) 
+        flash('Você não tem permissão para editar este comentário.', 'danger')
+        return redirect(url_for('petgramLista'))
 
     if request.method == 'POST':
         comentario.conteudo = request.form.get('conteudo')
         db.session.commit()
+        flash('Comentário atualizado com sucesso!', 'success')
         return redirect(url_for('petgramLista'))
 
     return render_template('editar_comentario_petgram.html', comentario=comentario)
@@ -243,7 +264,9 @@ def excluir_comentario_petgram(comentario_id):
     if comentario.user_id == current_user.id:
         db.session.delete(comentario)
         db.session.commit()
+        flash('Comentário excluído com sucesso!', 'success')
     return redirect(url_for('petgramLista'))
+
 
 @app.route('/repteis/')
 def repteis():

@@ -8,10 +8,6 @@ from app import db, bcrypt
 from app.models import User, Post, Petgram
 import os
 
-class FotoPerfilForm(FlaskForm):
-    foto = FileField('Foto de Perfil', validators=[FileRequired()])
-    submit = SubmitField('Atualizar Foto')
-
 class userForm(FlaskForm):
     nome = StringField('Nome', validators=[DataRequired()])
     sobrenome = StringField('Sobrenome', validators=[DataRequired()])
@@ -93,13 +89,12 @@ class petgramForm(FlaskForm):
             filename = secure_filename(file.filename)
             file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
             imagem = filename
-        
+
         petgram = Petgram(
             mensagem=self.mensagem.data,
             user_id=user_id,
             imagem=imagem,
-            categoria=self.categoria_petgram.data 
-
+            categoria_petgram=self.categoria_petgram.data
         )
         db.session.add(petgram)
         db.session.commit()

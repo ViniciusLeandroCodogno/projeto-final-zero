@@ -3,13 +3,13 @@
 
         <!-- Logotipo -->
         <div>
-            <img class="logotipo" src="static/images/Ezootic-Logo.png" alt="Logotipo">
+            <img class="logotipo" src="{{ url_for('static', filename='images/Ezootic-Logo.png') }}" alt="Logotipo">
         </div>
 
         <!-- NavBar     -->
         <div class="navbar-links">
             <a href="/">Página Inicial</a>
-            <a href="{{ url_for('postNovo') }}">Criar Post</a>
+            <a href="{{ url_for('postNovo') }}">Criar Blog</a>
             <a href="{{ url_for('postLista') }}">Blog</a>
             <a href="{{ url_for('petgramNovo') }}">Criar PetPost</a>
             <a href="{{ url_for('petgramLista') }}">Petgram</a>
@@ -17,6 +17,11 @@
 
         <!-- Login -->
         <div class="login-options">
+            {% for linha in user %}
+            <div>
+                <img src="{{ url_for('static', filename='uploads/' ~ current_user.foto_perfil) }}" alt="Foto de Perfil" class="img-fluid" style="width: 100px; height: 100px; border-radius: 50%;"> <strong>Usuário:</strong> {{ user.user.nome }}
+            </div>
+            {% endfor %}
             <span class="options-name btn bnt-primary" style="color: white;">{{current_user.nome}} {{current_user.sobrenome}}</span>
             <a href="{{url_for('logout')}}">Sair</a>
         </div>  

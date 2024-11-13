@@ -1,273 +1,368 @@
 {% extends 'base.html' %}
 
-{% block content %} 
+{% block content %}
 
-
-
-        <!-- NavBar -->
+    <!-- NavBar -->
     <div alt="Principal">
 
         <nav>
             {% include 'nave/nave.html' %}
         </nav>
 
+        <!-- Headline -->
         <div class="headline">
-
             <div>
-                <h1 class="headline-tt">Tudo sobre </span><span style="color: #d1a247" ;>animais exóticos</span></h1>
-                <p class="headline-p">Descubra o mundo dos animais exóticos com nosso Blog! <br> Conecte-se com outros apaixonados e compartilhe suas aventuras no Petgram!</p>
+                <h1 class="headline-tt">Tudo sobre <span style="color: #d1a247;">animais exóticos</span></h1>
+                <p class="headline-p">Explore o Universo dos Animais Exóticos no Nosso Blog! <br> Compartilhe suas Aventuras no Petgram e Conecte-se com Apaixonados!</p>
 
-                <!-- Newslatter -->
-                <p class="newslatter-p">Inscreva-se abaixo para receber conteúdos</p>
-                <input class="newslatter-input" placeholder="insira seu Email" required />
-                <button class="newslatter-button" type="submit">Quero receber</button>
+                <!-- Botões -->
+                 <a href="{{ url_for('postLista')}}" class="headline-button-blog">Conheça Nosso Blog</a>
             </div>
 
+            <!-- Imagem -->
             <div class="headline-imagem">
-                <img src="static/images/Guaxi.png" alt="Capivara">
+                <img src="{{ url_for('static', filename='images/Guaxi.png') }}" alt="">
             </div>
 
         </div>
 
-        
-
+        <!-- Heading -->
         <div class="destaques-ezooticos">
             <h1 class="destaques-ezooticos-h1">Destaques Ezooticos</h1>
-            <h2 class="destaques-semana-h1">Últimas postagens</h2>
 
-            <!-- Destaques da semana -->
-            <div class="destaques-semana">
-                {% for linha in posts %}
-                <tr>
-                    <td colspan="4">
-                        <!-- Estrutura do Post -->
-                        <div class="post-estrutura d-flex flex-column border p-3 mb-2 rounded-3">
-                            <h4 class="text-center text-white"></h4>
-                            <p><strong>Mensagem:</strong> {{ linha.mensagem }}</p>
-                            <p><strong>Usuário:</strong> {{ linha.user.nome }}</p>
-                            <p><strong>Categoria:</strong> {{ linha.categoria }}</p>
-                            <p><em>Publicado em 
-                                {% if linha.data_criacao %}
-                                    {{ linha.data_criacao.strftime('%d/%m/%Y %H:%M') }}
-                                {% else %}
-                                    Data não disponível
-                                {% endif %}
-                            </em></p>                                {% if linha.imagem %}
-                            <img style="width: 30vw; height: 50vh;" src="{{ url_for('static', filename='uploads/' ~ linha.imagem) }}" alt="Imagem do Post" class="img-fluid mb-2">
-                            {% endif %}
+    <!-- Destaques da semana -->
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-12">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td colspan="4">
 
-                            <!-- Comentários do Post -->
-                            <div class="bg-light p-3 rounded-3">
-                                <h4 class="text-center mt-3 mb-4">Comentários</h4>
+                                <div class="destaques-semana">
+                                    {% for linha in posts %}
+                                        <div class="dest-post">
+                                            <div class="post-estrutura">
 
-                                <!-- Formulário de Comentários -->
-                                <form action="{{ url_for('comentar_post', post_id=linha.id) }}" method="POST" class="mt-2">
-                                    <div class="form-group">
-                                        <textarea name="conteudo" class="form-control" placeholder="Adicione um comentário..." required></textarea>
-                                        <button type="submit" class="btn btn-warning mt-2 mb-3">Comentar</button>
-                                    </div>
-                                    <hr>
-                                </form>
-
-                                <!-- Exibição dos Comentários -->
-                                <div>
-                                    {% if linha.comentarios|length == 0 %}
-                                        <p>Não existe nenhum comentário</p>
-                                    {% else %}
-                                        {% for comentario in linha.comentarios %}
-                                            <div class="border p-2 mb-2 rounded-2">
-                                                <p>
-                                                    {{ comentario.conteudo }} <br><br>
-                                                    <small>Comentário feito por: <strong>{{ comentario.user.nome }}</strong></small>
-                                                </p>
-                                                {% if comentario.user_id == current_user.id %}
-                                                    <div class="d-flex">
-                                                        <a href="{{ url_for('editar_comentario', comentario_id=comentario.id) }}" class="btn btn-primary btn-sm me-2">Editar</a>
-                                                        <form action="{{ url_for('excluir_comentario', comentario_id=comentario.id) }}" method="POST" style="display:inline;">
-                                                            <input type="hidden" name="_method" value="DELETE">
-                                                            <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
-                                                        </form>
-                                                    </div>
+                                                <h4 class="text-center text-white"></h4>
+                                                <p><strong>Usuário:</strong> {{ linha.user.nome }}</p>
+                                                {% if linha.imagem %}
+                                                    <img class="img-post" src="{{ url_for('static', filename='uploads/' ~ linha.imagem) }}" alt="Imagem do Post" class="img-fluid mb-2" style="width: 30vw; height: 50vh;">
                                                 {% endif %}
+                                                <p><strong>Mensagem:</strong> {{ linha.mensagem }}</p>
+                                                <p><strong>Categoria:</strong> {{ linha.categoria }}</p>
+                                                <p><em>Publicado em 
+                                                    {{ linha.data_criacao.strftime('%d/%m/%Y %H:%M') if linha.data_criacao else "Data não disponível" }}
+                                                </em></p>  
+
+                                                <!-- Botões de Ação -->
+                                                <div class="d-flex align-items-center">
+                                                    <button class="btn btn-comentar btn-sm me-2" data-bs-toggle="modal" data-bs-target="#comentariosModal{{ linha.id }}">
+                                                    Comentar
+                                                    </button>
+                                                    
+                                                    <a href="{{ url_for('editar_post', post_id=linha.id) }}" class="btn btn-editar btn-sm me-2">Editar</a>
+
+                                                    <form action="{{ url_for('excluir_post', post_id=linha.id) }}" method="POST" style="display:inline;">
+                                                        <input type="hidden" name="_method" value="DELETE">
+                                                        <button type="submit" class="btn btn-excluir btn-sm">Excluir</button>
+                                                    </form>
+                                                </div>
+
+                                                <!-- Modal de Comentários -->
+                                                <div class="modal fade" id="comentariosModal{{ linha.id }}" tabindex="-1" aria-labelledby="comentariosModalLabel{{ linha.id }}" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                                                        <div class="modal-content">
+
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title w-100 text-center" id="comentariosModalLabel">Comentários</h4>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+
+
+                                                            <div class="modal-body">
+
+                                                                <form action="{{ url_for('comentar_post', post_id=linha.id) }}" method="POST" class="mt-2">
+
+                                                                    <div class="form-group">
+                                                                        <textarea name="conteudo" class="form-control" placeholder="Adicione um comentário..." required></textarea>
+                                                                        <button type="submit" class="btn btn-warning mt-2 mb-3">Comentar</button>
+                                                                    </div>
+
+                                                                </form>
+
+                                                                <!-- Exibição dos Comentários -->
+                                                                <div>
+
+                                                                    {% if linha.comentarios|length == 0 %}
+                                                                        <p>Não existe nenhum comentário</p>
+                                                                    {% else %}
+
+                                                                        {% for comentario in linha.comentarios %}
+                                                                            <div class="comentario border p-2 mb-2 rounded-2">
+                                                                                <p>{{ comentario.conteudo }}</p>
+                                                                                <small>Comentário feito por: <strong>{{ comentario.user.nome }}</strong></small>
+                                                                                
+                                                                                {% if comentario.user_id == current_user.id %}
+
+                                                                                    <div class="d-flex">
+                                                                                        <a href="{{ url_for('editar_comentario', comentario_id=comentario.id) }}" class="btn btn-editar btn-sm me-2">Editar</a>
+                                                                                        <form action="{{ url_for('excluir_comentario', comentario_id=comentario.id) }}" method="POST" style="display:inline;">
+                                                                                            <input type="hidden" name="_method" value="DELETE">
+                                                                                            <button type="submit" class="btn btn-excluir btn-sm">Excluir</button>
+                                                                                        </form>
+                                                                                    </div>
+
+                                                                                {% endif %}
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        {% endfor %}
-                                    {% endif %}
+                                        </div>
+                                    {% endfor %}
                                 </div>
-                            </div>
-
-                            <!-- Botões de Ação do Post -->
-                            {% if linha.user.id == current_user.id %}
-                                <div class="d-flex">
-                                    <a href="{{ url_for('editar_post', post_id=linha.id) }}" class="btn btn-primary btn-sm me-2">Editar</a>
-                                    <form action="{{ url_for('excluir_post', post_id=linha.id) }}" method="POST" style="display:inline;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
-                                    </form>
-                                </div>
-                            {% endif %}
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </div>
 
+<style>
+    /* Fontes */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');
 
+    body {
+        background-color: #D2D2AC;
+    }
 
-        <style>
-            /* Fontes */
-            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-            @import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');
+    .headline {
+        padding: 8% 5% 0% 5%;
+        display: flex;
+        justify-content: space-between;
+    }
 
-            body {
-                background-color: #D2D2AC;
-            }
+    .headline-tt {
+        color: #297272;
+        font-family: 'Kavoon', sans-serif;
+        font-weight: 500;
+        font-size: 50px;
+    }
 
-            .headline {
-                padding: 8% 5% 0% 5%;
-                display: flex;
-                justify-content: space-between;
-            }
+    .headline-p {
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.9vw;
+        color: #297272;
+        padding-bottom: 2%;
+    }
 
-            .headline-tt {
-                color: #297272;
-                font-family: 'Kavoon', sans-serif;
-                font-weight: 500;
-                font-size: 50px;
-            }
+    .headline-button-blog {
+        border-style: none;
+        border-radius: 5px;
+        padding: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: bold;
+        background-color: #d1a247;
+        color: white;
+        text-decoration: none;
+    }
 
-            .headline-p {
-                font-family: 'Poppins', sans-serif;
-                font-size: 0.9vw;
-                color: #297272;
-                padding-bottom: 2%;
-            }
+    .headline-button-blog:hover {
+        background-color: #E8EEEE;
+        color: #185757;
+    }
 
-            .headline-imagem img {
-                padding: 0% 30% 30% 0%;
-                width: 30vw;
-                height: 60vh;
-            }
+    .headline-imagem img {
+        padding: 0% 30% 30% 0%;
+        width: 30vw;
+        height: 60vh;
+    }
 
-            .newslatter-p {
-                font-family: 'Poppins', sans-serif;
-                font-size: 0.8vw;
-                color: #297272;
-            }
+    .newslatter-p {
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.8vw;
+        color: #297272;
+    }
 
-            .newslatter-input {
-                padding: 2% 0% 2% 2%;
-                border-radius: 20px 0px 0px 20px;
-                font-family: 'Poppins', sans-serif;
-                font-size: 1.5vb;
-                background-color: #D2D2AC;
-                border: 2px solid #d1a247;
-            }
+    .newslatter-input {
+        padding: 2% 0% 2% 2%;
+        border-radius: 20px 0px 0px 20px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.5vb;
+        background-color: #D2D2AC;
+        border: 2px solid #d1a247;
+    }
 
-            .newslatter-button {
-                padding: 2.3% 2% 2.2% 2%;
-                border-radius: 0px 20px 20px 0px;
-                border-style: none;
-                background-color: #297272;   
-                font-family: 'Poppins', sans-serif;
-                font-size: 1.5vh;
-                color: white;
-                margin-left: -1%;
-            }
+    .newslatter-button {
+        padding: 2.3% 2% 2.2% 2%;
+        border-radius: 0px 20px 20px 0px;
+        border-style: none;
+        background-color: #297272;   
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.5vh;
+        color: white;
+        margin-left: -1%;
+    }
 
-            .destaques-ezooticos-h1 {
-                font-family: 'Kavoon', sans-serif;
-                opacity: 70%;
-                color: #E8EEEE;
-                padding: 4% 0% 0% 0%;
-                background-color: #297272;
-                text-align: center;
-            }
+    .destaques-ezooticos-h1 {
+        font-family: 'Kavoon', sans-serif;
+        opacity: 70%;
+        color: #E8EEEE;
+        padding: 4% 0% 0% 0%;
+        background-color: #297272;
+        text-align: center;
+    }
 
-            .destaques-ezooticos {
-                background-color: #297272;
-            }
+    .destaques-ezooticos {
+        background-color: #297272;
+    }
 
-            .destaques-semana {
-                display: flex;
-                justify-content: space-between;
-                padding: 4%;   
-                background-color: #297272;      
-            }
+    .destaques-semana {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap; /* Permite a quebra de linha, caso necessário */
+        padding: 4%;   
+        background-color: #297272;      
+    }
 
-            .destaques-semana-h1 {
-                font-family: 'Kavoon', sans-serif;
-                font-size: 1.5vw;
-                opacity: 70%;
-                color: #E8EEEE;
-                padding: 3% 0% 0% 4%
-            }
+    .destaques-semana-h1 {
+        font-family: 'Kavoon', sans-serif;
+        font-size: 1.5vw;
+        opacity: 70%;
+        color: #E8EEEE;
+        margin-top: 4%;
+        margin-bottom: 4%;
+    }
 
-            .dest-lista {
-                margin: 0% 5% 0% 0%;
-                width: 65%;
-                height: 50%;
-            }
+    .dest-post {
+        background-color: #185757;
+        width: 30%;
+        border-radius: 20px 20px 20px 20px;
+        margin-bottom: 20px;
+        padding: 20px;
+    }
 
-            .dest-1 {
-                margin: 0% 0% 10% 0%;
-                padding: 5% 5% 0% 5%;
-                display: flex;
-                color: white;
-                font-family: 'Poppins', sans-serif;
-                font-weight: 500;
-                border-radius: 10px;
-                background-color: rgba(74, 134, 134);
-                width: 100%;
-            }
+    .dest-post img {
+        max-width: 100%;
+        height: auto;
+    }
 
-            .dest-2 {
-                color: white;
-                font-family: 'Poppins', sans-serif;
-                font-weight: 500;
-                border-radius: 10px;
-                background-color: rgba(74, 134, 134);
-                margin: 0% 0% 10% 0%;
-                padding: 5% 5% 0% 5%;
-                display: flex;
-            }
+    /* Estrutura do Post */
+    .post-estrutura {
+        background-color: #D9D9D9;
+        border-radius: 20px;
+        padding: 20px;
+        max-width: 800px;
+        margin: 20px auto;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Sombrinha suave na estrutura do post */
+        margin-bottom: 0 !important; /* Garantir que não haja espaço extra entre os posts */
+    }
 
-            .dest-3 {
-                color: white;
-                font-family: 'Poppins', sans-serif;
-                font-weight: 500;
-                border-radius: 10px;
-                background-color: rgba(74, 134, 134);
-                padding: 5% 5% 0% 5%;
-                display: flex;
-            }
+    /* Título do Post */
+    .post-estrutura h4 {
+        color: #185757;
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
 
-            .criar-blog {
-                color: white;
-                border-radius: 10px;
-                background-color: rgba(74, 134, 134);
-                padding: 10%;
-                margin-bottom: 20px;
-            }
+    /* Texto do Post */
+    .post-estrutura p {
+        color: #185757;
+        font-family: 'Poppins', sans-serif;
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
 
-            .criar-blog h1 {
-                font-family: 'Poppins', sans-serif;
-                font-size: 1.5vw;
-            }
+    /* Imagem do Post */
+    .post-estrutura img {
+        border-radius: 15px;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra para a imagem */
+    }
 
-            .criar-blog p {
-                font-family: 'Poppins', sans-serif;
-                font-size: 1vw;
-            }
+    .btn-editar {
+            background-color: #185757;
+            color: #E8EEEE;
+            font-size: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            border: none;
+        }
+    
+        .btn-excluir {
+            background-color: #0c3131;
+            color: #E8EEEE;
+            font-size: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            border: none;
+        }
+    
+        /* Hover para os Botões de Post */
+        .btn-editar:hover,
+        .btn-excluir:hover {
+            background-color: #E8EEEE;
+            color: #185757;
+        }
+    
+        /* Botão de Comentar */
+        .btn-comentar {
+            background-color: #D1A247;
+            color: #E8EEEE;
+            font-size: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            border: none;
+        }
+    
+        .btn-comentar:hover {
+            background-color: #E8EEEE;
+            color: #185757;
+        }
+    
+        .btn-comentar i {
+            font-size: 18px;
+        }
 
-            .criar-blog-button {
-                border-radius: 10px;
-                padding: 5% 10% 0% 10%;
-                color: white;
-                font-family: 'Poppins', sans-serif;
-                background-color: transparent;
-                border: 2px solid #ffffff;
-            }
+    /* Responsividade */
+    @media (max-width: 768px) {
+        .dest-post {
+            width: 100%; /* Em telas menores, exibe um post por linha */
+        }
+    }
+    table tbody tr td {
+            border: none; /* Remove borda entre os posts */
+            padding: 0;  /* Remove o padding extra da célula */
+        }
+</style>
 
-        </style>
-
-    {% endblock %}
+{% endblock %}
