@@ -6,7 +6,7 @@
             <img class="logotipo" src="{{ url_for('static', filename='images/Ezootic-Logo.png') }}" alt="Logotipo">
         </div>
 
-        <!-- NavBar     -->
+        <!-- NavBar -->
         <div class="navbar-links">
             <a href="/">Página Inicial</a>
             <a href="{{ url_for('postNovo') }}">Criar Blog</a>
@@ -19,101 +19,95 @@
         <div class="login-options">
             {% for linha in user %}
             <div>
-                <img src="{{ url_for('static', filename='uploads/' ~ current_user.foto_perfil) }}" alt="Foto de Perfil" class="img-fluid" style="width: 100px; height: 100px; border-radius: 50%;"> <strong>Usuário:</strong> {{ user.user.nome }}
+                <img src="{{ url_for('static', filename='uploads/' ~ current_user.foto_perfil) }}" alt="Foto de Perfil" class="img-fluid" style="width: 100px; height: 100px; border-radius: 50%;"> 
+                <strong>Usuário:</strong> {{ user.user.nome }}
             </div>
             {% endfor %}
-            <span class="options-name btn bnt-primary" style="color: white;">{{current_user.nome}} {{current_user.sobrenome}}</span>
-            <a href="{{url_for('logout')}}">Sair</a>
-        </div>  
+            <span class="options-name" style="color: white;">{{current_user.nome}} {{current_user.sobrenome}}</span>
+            
+            <!-- Ícone de seta para baixo (Dropdown) -->
+            <div class="dropdown custom-dropdown">
+                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
+                </a>
+                <ul class="dropdown-menu" style="background-color: #297272; border-radius: 10px; border: none;">
+                    <li><a class="dropdown-item" href="{{ url_for('editar_usuario') }}" style="color: white;">Editar Perfil</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('logout') }}" style="color: white;">Sair</a></li>
+                </ul>
+            </div>
+        </div>
 
     </nav>
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');
-
-        .navbar {
-
-            /* Espaçamentos */
-            display: flex;
-            justify-content: space-between;
-            align-content: center;
-            padding: 1% 1% 1% 1%;
-
-            /* Decoração */
-            background-color: #C6C697;
-
-        }
-
-        .logotipo {
-
-            /* Espaçamentos */
-            width: 7vw;
-            height: 5vh;
-        }
-
-        .navbar-links {
-
-            /* Espaçamentos */
-            display: flex;
-            gap: 20px;
-
-        }
-
-        .navbar-links a {
-
-            /* Decoração */
-            text-decoration: none;
-            color: #a57c2b;
-            font-family: "Poppins", sans-serif;
-            font-weight: 500;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-
-        .navbar-links a:hover {
-
-             /* Decoração */
-            color: #79591a;
-
-        }
-
-        .login-options {
-
-            /* Espaçamentos */
-            border-radius: 20px;
-            padding: 6px 6px 6px 6px;
-
-            /* Decoração */
-            background-color: #297272;
-            font-family: "Poppins", sans-serif;
-
-        }
-
-        .login-options a {
-
-            /* Espaçamentos */
-            padding: 7px;
-            margin: 5px 0px 5px 0px;
-            border-radius: 15px;
-            font-weight: 400;
-            font-size: 13px;
-            text-decoration: none;
-
-            /* Decoração */
-            background-color: rgb(212, 212, 212);
-            color: #297272;
-        }
-
-        .options-name {
-
-            /* Decoração */
-            font-weight: 400;
-            font-size: 14px;
-        }
-
-        
-
-    </style>
-
 {% endif %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+        padding: 1% 1% 1% 1%;
+        background-color: #C6C697;
+    }
+
+    .logotipo {
+        width: 7vw;
+        height: 5vh;
+    }
+
+    .navbar-links {
+        display: flex;
+        gap: 20px;
+    }
+
+    .navbar-links a {
+        text-decoration: none;
+        color: #a57c2b;
+        font-family: "Poppins", sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: color 0.3s;
+    }
+
+    .navbar-links a:hover {
+        color: #79591a;
+    }
+
+    .login-options {
+        border-radius: 20px;
+        padding: 6px 6px 6px 6px;
+        background-color: #297272;
+        font-family: "Poppins", sans-serif;
+        display: flex;
+    }
+
+    .options-name {
+        font-weight: 400;
+        font-size: 14px;
+    }
+
+    .dropdown-menu {
+        background-color: #297272;
+        border-radius: 10px;
+        border: none;
+    }
+
+    .dropdown-item {
+        color: white;
+        font-weight: 500;
+        font-size: 14px;
+        padding: 10px 20px;
+        text-decoration: none;
+    }
+
+    .dropdown-item:hover {
+        background-color: #3d8e8d;
+    }
+
+    .custom-dropdown .dropdown-menu {
+        left: auto;
+        right: 0; /* Ajusta a posição para a esquerda */
+        transform: translateX(-50%); /* Ajusta a posição horizontal */
+    }
+</style>

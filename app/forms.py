@@ -33,6 +33,22 @@ class userForm(FlaskForm):
         db.session.add(user)
         db.session.commit()
         return user
+    
+
+
+class EditUserForm(FlaskForm):
+    nome = StringField('Nome', validators=[DataRequired()])
+    sobrenome = StringField('Sobrenome', validators=[DataRequired()])
+    email = StringField('E-mail', validators=[DataRequired(), Email()])
+    senha = PasswordField('Nova Senha')
+    confirmacao_senha = PasswordField('Confirmar Nova Senha', validators=[EqualTo('senha')])
+    btnSubmit = SubmitField('Salvar Alterações')
+
+    def validate_email(self, email):
+        # Verifique se o e-mail já está em uso por outro usuário
+        if User.query.filter_by(email=email.data).first():
+            raise ValidationError('E-mail já cadastrado.')
+
 
 
 

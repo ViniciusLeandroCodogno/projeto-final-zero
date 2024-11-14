@@ -1,6 +1,6 @@
 from app import app, db, bcrypt
 from flask import render_template, send_from_directory, url_for, redirect, request, flash, current_app
-from app.forms import userForm, loginForm, postForm, petgramForm
+from app.forms import userForm, loginForm, postForm, petgramForm, EditUserForm
 from flask_login import login_user, logout_user, current_user, login_required
 from app.models import Post, Comentario, Petgram, ComentarioPetgram, User
 from werkzeug.utils import secure_filename
@@ -70,6 +70,35 @@ def logout():
     logout_user()
     flash('Você saiu com sucesso.', 'info')
     return redirect(url_for('login'))
+
+
+
+@app.route('/editar_usuario/', methods=['GET', 'POST'])
+@login_required
+def editar_usuario():
+    form = EditUserForm()
+
+    # Preenche o formulário com os dados atuais do usuário logado
+    if request.method == 'GET':
+        form.nome.data = current_user.nome
+        form.sobrenome.data = current_user.sobrenome
+        form.email.data = current_user.email
+
+    # Quando o formulário for enviado
+    if form.validate_on_submit():
+        current_user.nome = form.nome.data
+        current_user.sobrenome = form.sobrenome.data
+        current_user.email = form.email.data
+
+        if form.senha.data:
+            current_user.senha = bcrypt.generate_password_hash(form.senha.data).decode('utf-8')
+
+        db.session.commit()
+        flash('Dados atualizados com sucesso!', 'success')
+        return redirect(url_for('perfil'))  # Redirecionar para a página de perfil ou outra página
+
+    return render_template('editar_usuario.html', form=form)
+
 
 
 
