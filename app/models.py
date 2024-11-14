@@ -2,9 +2,13 @@ from app import db, login_manager
 from flask_login import UserMixin
 from datetime import datetime
 
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -19,6 +23,8 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"User('{self.id}', '{self.nome}', '{self.sobrenome}', '{self.email}')"
 
+
+
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     mensagem = db.Column(db.String, nullable=True)
@@ -30,6 +36,8 @@ class Post(db.Model):
     def __repr__(self):
         return f"Post('{self.mensagem}', '{self.imagem}', '{self.categoria}')"
 
+
+
 class Comentario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     conteudo = db.Column(db.String, nullable=False)
@@ -38,6 +46,8 @@ class Comentario(db.Model):
     
     user = db.relationship('User', backref='comentarios')
     post = db.relationship('Post', backref='comentarios')
+
+
 
 class Petgram(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -50,6 +60,7 @@ class Petgram(db.Model):
 
     def __repr__(self):
         return f"Post('{self.mensagem}', '{self.imagem}', '{self.categoria_petgram}')" 
+
 
 class ComentarioPetgram(db.Model):
     id = db.Column(db.Integer, primary_key=True)

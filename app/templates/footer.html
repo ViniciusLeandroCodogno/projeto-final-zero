@@ -1,26 +1,174 @@
-<footer>
-    <div>
-        <div class="imagem">
-
+<footer class="footer">
+    <div class="footer-container">
+        <!-- Logo -->
+        <div class="footer-logo">
+            <img src="{{ url_for('static', filename='images/Ezootic-Logo.png') }}" alt="Ezootic Logo" class="footer-logo-img">
         </div>
-        <div class="colunas">
-            <div class="navegacao">
 
+        <!-- Colunas -->
+        <div class="footer-columns">
+            <!-- Navegação -->
+            <div class="footer-navigation">
+                <h4>Navegação</h4>
+                <ul>
+                    <li><a href="{{ url_for('postLista') }}">Blog</a></li>
+                    <li><a href="{{ url_for('petgramLista') }}">Petgram</a></li>
+                </ul>
             </div>
 
-            <div class="informacao">
-
+            <!-- Informação -->
+            <div class="footer-info">
+                <h4>Informação</h4>
+                <ul>
+                    <li><a href="{{ url_for('politicaprivacidade') }}">Política de privacidade</a></li>
+                </ul>
             </div>
 
-            <div class="contato">
-
+            <!-- Contato -->
+            <div class="footer-contact">
+                <h4>Contato</h4>
+                <p>ezooticcontato@gmail.com</p>
             </div>
 
-            <div class="desenvolvedores">
-
-            </div>
-    
+            <!-- Desenvolvedores -->
+            <div class="footer-developers">
+                <h4>Desenvolvedores</h4>
+                <a href="https://github.com/lillianErthal" target="_blank">Lillian</a>
+                <a href="https://github.com/anagesser" target="_blank">Ana Gesser</a>
+                <a href="https://github.com/ViniciusLeandroCodogno" target="_blank">Vinícius Codogno</a>
+            </div>            
         </div>
     </div>
-    
+
+    <!-- Copyright -->
+    <div class="footer-copyright">
+        <p>Copyright © 2024 Ezootic</p>
+    </div>
+
+    <style>
+        /* Importação de fontes */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
+
+        /* Estilos do footer */
+        .footer {
+            background-color: #E8EEEE;
+            color: #297272;
+            padding: 20px 0;
+            font-family: 'Poppins', sans-serif;
+            border-top: 4px solid #297272;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px 20px 0px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .footer-logo-img {
+            width: 200px;
+            height: auto;
+        }
+
+        .footer-developers a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            margin-bottom: 5px; /* Para adicionar um pequeno espaço entre os links */
+        }
+
+
+        .footer-columns {
+            display: flex;
+            flex: 3;
+            justify-content: space-between;
+        }
+
+        /* Estilos das colunas */
+        .footer-columns > div {
+            margin-right: 40px;
+        }
+
+        .footer-columns h4 {
+            color: #297272;
+            font-weight: 500;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            font-family: 'Kavoon', sans-serif;
+        }
+        
+
+        /* Links */
+        .footer-columns ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-columns ul li {
+            margin-bottom: 5px;
+        }
+
+        .footer-columns ul li a {
+            color: #297272;
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 15px;
+        }
+
+        /* Contato e Desenvolvedores */
+        .footer-columns p {
+            margin: 5px 0;
+            font-size: 0.95em;
+            font-weight: 400;
+        }
+
+        /* Rodapé inferior */
+        .footer-copyright {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px 10px 20px;
+            color: #297272;
+            font-size: 0.9em;
+        }
+
+        /* Ícones sociais */
+        .footer-social-icons {
+            display: flex;
+        }
+
+        .footer-icon {
+            width: 20px;
+            height: 20px;
+            background-color: #297272;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-columns {
+                flex-direction: column;
+                align-items: center;
+                margin-top: 20px;
+            }
+
+            .footer-columns > div {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
 </footer>

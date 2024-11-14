@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% include 'nave/nave.html' %}
+
+{% block title %}Política de Privacidade{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="imagem">
+            <img src="{{ url_for('static', filename='images/Ezootic-Logo.png') }}" alt="Ezootic Logo" class="footer-logo-img">
+        </div>
+        <h1>Política de Privacidade</h1>
+        <p>Bem-vindo à nossa página de Política de Privacidade. A sua privacidade é muito importante para nós. Esta política descreve como coletamos, usamos e protegemos suas informações pessoais.</p>
+
+        <h2>Informações que Coletamos</h2>
+        <p>Coletamos informações pessoais quando você interage conosco de várias maneiras, como:</p>
+        <ul>
+            <li>Cadastro no nosso site;</li>
+            <li>Preenchimento de formulários;</li>
+            <li>Participação em promoções e pesquisas;</li>
+            <li>Interação em nossos canais de comunicação.</li>
+        </ul>
+
+        <h2>Como Usamos suas Informações</h2>
+        <p>As informações que coletamos são utilizadas para:</p>
+        <ul>
+            <li>Personalizar a sua experiência;</li>
+            <li>Melhorar o conteúdo do nosso site;</li>
+            <li>Comunicar ofertas e novidades de interesse;</li>
+            <li>Garantir a segurança e o bom funcionamento dos nossos serviços.</li>
+        </ul>
+
+        <h2>Compartilhamento de Informações</h2>
+        <p>Não compartilhamos suas informações pessoais com terceiros, exceto quando necessário para cumprir a lei, ou quando temos sua permissão expressa.</p>
+
+        <h2>Segurança</h2>
+        <p>Tomamos medidas adequadas para proteger suas informações pessoais contra acesso não autorizado, alteração ou destruição.</p>
+
+        <h2>Seus Direitos</h2>
+        <p>Você tem o direito de acessar, corrigir ou excluir suas informações pessoais a qualquer momento. Caso deseje exercer esses direitos, entre em contato conosco.</p>
+    </div>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #E8EEEE;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .imagem {
+            display: flex;
+            justify-content: center; 
+            padding: 20px 0px 40px 0px;
+        }
+
+        .imagem img {
+            width: 150px;
+            height: auto;
+
+        }
+
+        .container {
+            width: 85%;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #297272;
+            font-size: 2.8em;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        h2 {
+            color: #297272;
+            font-size: 1.8em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            margin-left: 20px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            color: #d1a247;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.9em;
+            color: #6c6c6c;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ccc;
+        }
+
+        .footer a {
+            color: #297272;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+
+{% endblock %}

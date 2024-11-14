@@ -8,6 +8,8 @@ from app import db, bcrypt
 from app.models import User, Post, Petgram
 import os
 
+
+
 class userForm(FlaskForm):
     nome = StringField('Nome', validators=[DataRequired()])
     sobrenome = StringField('Sobrenome', validators=[DataRequired()])
@@ -32,6 +34,21 @@ class userForm(FlaskForm):
         db.session.commit()
         return user
 
+
+
+class RecuperarSenhaForm(FlaskForm):
+    email = StringField('E-mail', validators=[DataRequired(), Email()])
+    btnSubmit = SubmitField('Enviar Link de Recuperação')
+
+
+
+class NovaSenhaForm(FlaskForm):
+    senha = PasswordField('Nova Senha', validators=[DataRequired()])
+    confirmacao_senha = PasswordField('Confirme a Nova Senha', validators=[DataRequired(), EqualTo('senha')])
+    btnSubmit = SubmitField('Salvar Nova Senha')
+
+
+
 class loginForm(FlaskForm):
     email = StringField('E-mail', validators=[DataRequired(), Email()])
     senha = PasswordField('Senha', validators=[DataRequired()])
@@ -42,6 +59,8 @@ class loginForm(FlaskForm):
         if user and bcrypt.check_password_hash(user.senha, self.senha.data.encode('utf-8')):
             return user
         raise Exception('Usuário não encontrado ou senha incorreta!!!')
+
+
 
 class postForm(FlaskForm):
     mensagem = StringField('Mensagem', validators=[DataRequired()])
@@ -70,6 +89,8 @@ class postForm(FlaskForm):
         )
         db.session.add(post)
         db.session.commit()
+
+
 
 class petgramForm(FlaskForm):
     mensagem = StringField('Mensagem', validators=[DataRequired()])

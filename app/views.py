@@ -4,20 +4,27 @@ from app.forms import userForm, loginForm, postForm, petgramForm
 from flask_login import login_user, logout_user, current_user, login_required
 from app.models import Post, Comentario, Petgram, ComentarioPetgram, User
 from werkzeug.utils import secure_filename
+
 import os
 
 
 UPLOAD_FOLDER = os.path.join(app.root_path, 'static', 'uploads')
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
 
+
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
 
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
@@ -27,6 +34,8 @@ def homepage():
     else:
         flash('Por favor, faça login para acessar a página inicial.', 'warning')
         return redirect(url_for('login'))
+
+
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -42,6 +51,8 @@ def login():
             return redirect(url_for('login'))
     return render_template('login/login.html', form=form)
 
+
+
 @app.route('/cadastro/', methods=['GET', 'POST'])
 def cadastro():
     form = userForm()
@@ -52,11 +63,15 @@ def cadastro():
         return redirect(url_for('homepage'))
     return render_template('login/cadastro.html', form=form)
 
+
+
 @app.route('/sair/')
 def logout():
     logout_user()
     flash('Você saiu com sucesso.', 'info')
     return redirect(url_for('login'))
+
+
 
 @app.route('/post/novo/', methods=['GET', 'POST'])
 def postNovo():
@@ -84,10 +99,14 @@ def postNovo():
     
     return render_template('blog/blog_post.html', form=form)
 
+
+
 @app.route('/post/lista/', methods=['GET', 'POST'])
 def postLista():
     posts = Post.query.order_by(Post.data_criacao.desc()).limit(5).all()
     return render_template('blog/blog.html', posts=posts)
+
+
 
 @app.route('/comentar/<int:post_id>', methods=['POST'])
 def comentar_post(post_id):
@@ -100,6 +119,8 @@ def comentar_post(post_id):
     
     flash('Comentário adicionado com sucesso!', 'success')
     return redirect(url_for('postLista'))
+
+
 
 @app.route('/editar_post/<int:post_id>', methods=['GET', 'POST'])
 def editar_post(post_id):
@@ -128,6 +149,8 @@ def editar_post(post_id):
 
     return render_template('blog/blog_editar.html', form=form, post=post)
 
+
+
 @app.route('/excluir_post/<int:post_id>', methods=['POST'])
 def excluir_post(post_id):
     post = Post.query.get_or_404(post_id)
@@ -137,6 +160,8 @@ def excluir_post(post_id):
         db.session.commit()
         flash('Post excluído com sucesso!', 'success')
     return redirect(url_for('postLista'))
+
+
 
 @app.route('/editar_comentario/<int:comentario_id>', methods=['GET', 'POST'])
 def editar_comentario(comentario_id):
@@ -153,6 +178,8 @@ def editar_comentario(comentario_id):
 
     return render_template('editar_comentario.html', comentario=comentario)
 
+
+
 @app.route('/excluir_comentario/<int:comentario_id>', methods=['POST'])
 def excluir_comentario(comentario_id):
     comentario = Comentario.query.get_or_404(comentario_id)
@@ -161,6 +188,8 @@ def excluir_comentario(comentario_id):
         db.session.commit()
         flash('Comentário excluído com sucesso!', 'success')
     return redirect(url_for('postLista'))
+
+
 
 @app.route('/petgram/', methods=['GET', 'POST'])
 def petgramNovo():
@@ -188,10 +217,14 @@ def petgramNovo():
     
     return render_template('petgram/petgram_post.html', form=form)
 
+
+
 @app.route('/petgram/lista/', methods=['GET', 'POST'])
 def petgramLista():
     petgrams = Petgram.query.order_by(Petgram.data_criacao.desc()).limit(5).all()
     return render_template('petgram/petgram.html', petgrams=petgrams)
+
+
 
 @app.route('/comentar_petgram/<int:petgram_id>', methods=['POST'])
 def comentar_petgram(petgram_id):
@@ -204,6 +237,9 @@ def comentar_petgram(petgram_id):
     
     flash('Comentário adicionado com sucesso!', 'success')
     return redirect(url_for('petgramLista'))
+
+
+
 
 @app.route('/editar_petgram/<int:petgram_id>', methods=['GET', 'POST'])
 def editar_petgram(petgram_id):
@@ -243,6 +279,8 @@ def excluir_petgram(petgram_id):
         flash('Petgram excluído com sucesso!', 'success')
     return redirect(url_for('petgramLista'))
 
+
+
 @app.route('/editar_comentario_petgram/<int:comentario_id>', methods=['GET', 'POST'])
 def editar_comentario_petgram(comentario_id):
     comentario = ComentarioPetgram.query.get_or_404(comentario_id)
@@ -258,6 +296,8 @@ def editar_comentario_petgram(comentario_id):
 
     return render_template('editar_comentario_petgram.html', comentario=comentario)
 
+
+
 @app.route('/excluir_comentario_petgram/<int:comentario_id>', methods=['POST'])
 def excluir_comentario_petgram(comentario_id):
     comentario = ComentarioPetgram.query.get_or_404(comentario_id)
@@ -268,25 +308,39 @@ def excluir_comentario_petgram(comentario_id):
     return redirect(url_for('petgramLista'))
 
 
+
+@app.route('/politica-privacidade/')
+def politicaprivacidade():
+    return render_template('politica_privacidade.html')
+
+
+
 @app.route('/repteis/')
 def repteis():
     posts = Post.query.filter_by(categoria='Répteis').all()
     return render_template('blog/blog_repteis.html', posts=posts)
+
+
 
 @app.route('/mamiferos/')
 def mamiferos():
     posts = Post.query.filter_by(categoria='Mamíferos').all()
     return render_template('blog/blog_mamiferos.html', posts=posts)
 
+
+
 @app.route('/aquaticos/')
 def aquaticos():
     posts = Post.query.filter_by(categoria='Aquáticos').all()
     return render_template('blog/blog_aquaticos.html', posts=posts)
 
+
+
 @app.route('/aves/')
 def aves():
     posts = Post.query.filter_by(categoria='Aves').all()
     return render_template('blog/blog_aves.html', posts=posts)
+
 
 
 # Nave Petgram
@@ -296,15 +350,21 @@ def repteis_petgram():
     petgrams = Petgram.query.filter_by(categoria_petgram='Répteis').all()
     return render_template('petgram/petgram_repteis.html', petgrams=petgrams)
 
+
+
 @app.route('/mamiferos/petgram/')
 def mamiferos_petgram():
     petgrams = Petgram.query.filter_by(categoria_petgram='Mamíferos').all()
     return render_template('petgram/petgram_mamiferos.html', petgrams=petgrams)
 
+
+
 @app.route('/aquaticos/petgram/')
 def aquaticos_petgram():
     petgrams = Petgram.query.filter_by(categoria_petgram='Aquáticos').all()
     return render_template('petgram/petgram_aquaticos.html', petgrams=petgrams)
+
+
 
 @app.route('/aves/petgram/')
 def aves_petgram():
