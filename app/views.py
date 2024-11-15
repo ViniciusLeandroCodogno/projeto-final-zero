@@ -45,7 +45,7 @@ def login():
         if user and bcrypt.check_password_hash(user.senha, form.senha.data):
             login_user(user, remember=True)
             flash('Login realizado com sucesso!', 'success')
-            return redirect(url_for('postNovo'))
+            return redirect(url_for('homepage'))
         else:
             flash('Falha no Login. Verifique seu e-mail e senha', 'danger')
             return redirect(url_for('login'))
@@ -95,9 +95,9 @@ def editar_usuario():
 
         db.session.commit()
         flash('Dados atualizados com sucesso!', 'success')
-        return redirect(url_for('perfil'))  # Redirecionar para a página de perfil ou outra página
+        return redirect(url_for('homepage'))  # Redirecionar para a página de perfil ou outra página
 
-    return render_template('editar_usuario.html', form=form)
+    return render_template('login/editar_usuario.html', form=form)
 
 
 
