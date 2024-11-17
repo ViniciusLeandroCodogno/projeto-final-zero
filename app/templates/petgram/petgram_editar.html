@@ -16,38 +16,34 @@
             </div>
         {% endif %}
     {% endwith %}
-
     <h3 class="text-center mb-4" style="color: #297272;">Editar Petgram</h3>
     
     <form action="{{ url_for('editar_petgram', petgram_id=petgram.id) }}" method="POST" enctype="multipart/form-data" class="row mt-4 p-4 rounded shadow-lg" style="background-color: #E8EEEE;">
+        {{ form.hidden_tag() }}  <!-- Campo CSRF -->
+
         <div class="form-group mb-3">
-            <label for="mensagem" class="form-label text-muted">Mensagem</label>
-            <textarea name="mensagem" class="form-control custom-textarea" required placeholder="Digite sua mensagem aqui..." style="background-color: #D9D9D9;">{{ petgram.mensagem }}</textarea>
+            {{ form.legenda.label(class="form-label text-muted") }}
+            {{ form.legenda(class="form-control custom-textarea", placeholder="Digite sua mensagem aqui...", style="background-color: #D9D9D9;") }}
         </div>
 
         <div class="form-group mb-3">
-            <label for="imagem" class="form-label text-muted">Imagem</label>
-            <input type="file" name="imagem" class="form-control" style="background-color: #D9D9D9;">
-            
+            {{ form.imagem.label(class="form-label text-muted") }}
+            {{ form.imagem(class="form-control", style="background-color: #D9D9D9;") }}
             {% if petgram.imagem %}
-                <div class="mt-3">
-                    <p><strong>Imagem atual:</strong></p>
-                    <img src="{{ url_for('uploaded_file', filename=petgram.imagem) }}" alt="Imagem do Petgram" class="img-fluid" style="max-width: 200px;">
-                </div>
+                <img src="{{ url_for('uploaded_file', filename=petgram.imagem) }}" alt="Imagem do Petgram" class="mt-2" style="max-width: 200px;">
             {% endif %}
         </div>
 
         <div class="form-group mb-3">
-            <label for="categoria" class="form-label text-muted">Categoria</label>
-            <input type="text" name="categoria" class="form-control" value="{{ petgram.categoria }}" style="background-color: #D9D9D9;">
-        </div>
-
+            {{ form.categoria_petgram.label(class="form-label text-muted") }}
+            {{ form.categoria_petgram(class="form-select", style="background-color: #D9D9D9;") }}
+        </div>       
+        
         <div class="form-group mb-3">
-            <button type="submit" class="btn btn-warning w-100">Salvar</button>
+            {{ form.btnSubmit(class="btn btn-warning w-100") }}
         </div>
     </form>
 </div>
-{% include 'footer.html' %}
 
 <style>
     body {

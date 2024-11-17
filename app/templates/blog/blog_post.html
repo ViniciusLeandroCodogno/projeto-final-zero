@@ -10,9 +10,13 @@
         {{ form.hidden_tag() }}
     
         <div class="form-group mb-3">
-            {{ form.mensagem.label(class="form-label text-muted") }}
-            {{ form.mensagem(class="form-control custom-textarea", placeholder="Digite sua mensagem aqui...", style="background-color: #D9D9D9;") }}
+            {{ form.titulo.label(class="form-label text-muted") }}
+            {{ form.titulo(class="form-control custom-textarea", placeholder="Digite o título...", style="background-color: #D9D9D9;") }}
         </div>
+        <div class="form-group mb-3">
+            {{ form.artigos.label(class="form-label text-muted") }}
+            {{ form.artigos(class="form-control custom-textarea", placeholder="Digite o seu artigo...", style="background-color: #D9D9D9;") }}
+        </div> 
         <div class="form-group mb-3">
             {{ form.imagem.label(class="form-label text-muted") }}
             {{ form.imagem(class="form-control", style="background-color: #D9D9D9;") }}

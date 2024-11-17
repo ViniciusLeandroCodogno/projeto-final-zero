@@ -19,7 +19,8 @@
                                         {% if linha.imagem %}
                                             <img class="img-post" src="{{ url_for('static', filename='uploads/' ~ linha.imagem) }}" alt="Imagem do Post" class="img-fluid mb-2" style="width: 30vw; height: 50vh;">
                                         {% endif %}
-                                        <p><strong>Mensagem:</strong> {{ linha.mensagem }}</p>
+                                        <p><strong>Título:</strong> {{ linha.titulo }}</p>
+                                        <p><strong>Artigo:</strong> {{ linha.artigos }}</p>
                                         <p><strong>Categoria:</strong> {{ linha.categoria }}</p>
                                         <p><em>Publicado em 
                                             {{ linha.data_criacao.strftime('%d/%m/%Y %H:%M') if linha.data_criacao else "Data não disponível" }}
@@ -30,7 +31,7 @@
 
                                             <!-- Ícone de Comentário -->
                                             <button class="btn btn-comentar btn-sm me-2" data-bs-toggle="modal" data-bs-target="#comentariosModal{{ linha.id }}">
-                                               Comentar
+                                               Comentarios
                                             </button>
                                             
 

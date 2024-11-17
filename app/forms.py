@@ -79,8 +79,9 @@ class loginForm(FlaskForm):
 
 
 class postForm(FlaskForm):
-    mensagem = StringField('Mensagem', validators=[DataRequired()])
-    imagem = FileField('Imagem', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Imagens apenas!')])
+    titulo = StringField('Título', validators=[DataRequired()])
+    artigos = StringField('Artigos', validators=[DataRequired()])
+    imagem = FileField('Imagem', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Apenas imagens são permitidas.')])
     categoria = SelectField('Categoria', choices=[
         ('Répteis', 'Répteis'),
         ('Mamíferos', 'Mamíferos'),
@@ -98,7 +99,8 @@ class postForm(FlaskForm):
             imagem = filename
         
         post = Post(
-            mensagem=self.mensagem.data,
+            titulo=self.titulo.data,
+            artigos=self.artigos.data,
             user_id=user_id,
             imagem=imagem,
             categoria=self.categoria.data 
@@ -109,8 +111,8 @@ class postForm(FlaskForm):
 
 
 class petgramForm(FlaskForm):
-    mensagem = StringField('Mensagem', validators=[DataRequired()])
-    imagem = FileField('Imagem', validators=[FileAllowed(['jpg', 'png'], 'Imagens apenas!')])
+    legenda = StringField('Legenda', validators=[DataRequired()])
+    imagem = FileField('Imagem', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Imagens apenas!')])
     categoria_petgram = SelectField('Categoria', choices=[
         ('Répteis', 'Répteis'),
         ('Mamíferos', 'Mamíferos'),

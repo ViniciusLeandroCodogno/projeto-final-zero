@@ -27,7 +27,8 @@ class User(db.Model, UserMixin):
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    mensagem = db.Column(db.String, nullable=True)
+    titulo = db.Column(db.String, nullable=True)
+    artigos = db.Column(db.String, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     imagem = db.Column(db.String, nullable=True)
     categoria = db.Column(db.String(50), nullable=True)
@@ -51,7 +52,7 @@ class Comentario(db.Model):
 
 class Petgram(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    mensagem = db.Column(db.Text, nullable=False)
+    legenda = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     comentarios = db.relationship('ComentarioPetgram', backref='petgram', lazy=True)
     imagem = db.Column(db.String, nullable=True)

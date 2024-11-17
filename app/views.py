@@ -115,7 +115,8 @@ def postNovo():
                 imagem = filename
         
         post = Post(
-            mensagem=form.mensagem.data,
+            titulo=form.titulo.data,
+            artigos=form.artigos.data,
             user_id=current_user.id,
             imagem=imagem,
             categoria=form.categoria.data
@@ -162,7 +163,8 @@ def editar_post(post_id):
     form = postForm(obj=post)
 
     if form.validate_on_submit():
-        post.mensagem = form.mensagem.data
+        post.titulo = form.titulo.data
+        post.artigos = form.artigos.data
         post.categoria = form.categoria.data
         
         if 'imagem' in request.files:
@@ -233,7 +235,7 @@ def petgramNovo():
                 imagem = filename
         
         petgram = Petgram(
-            mensagem=form.mensagem.data,
+            legenda=form.legenda.data,
             user_id=current_user.id,
             imagem=imagem,
             categoria_petgram=form.categoria_petgram.data
@@ -277,24 +279,28 @@ def editar_petgram(petgram_id):
         flash('Você não tem permissão para editar este petgram.', 'danger')
         return redirect(url_for('petgramLista'))
 
-    if request.method == 'POST':
-        petgram.mensagem = request.form.get('mensagem')
-        petgram.categoria = request.form.get('categoria')
+    form = petgramForm()
 
-        # Verifica se há uma nova imagem
-        if 'imagem' in request.files:
-            imagem = request.files['imagem']
-            if imagem:
-                # Lógica para salvar a imagem
-                imagem_filename = secure_filename(imagem.filename)
-                imagem.save(os.path.join(app.config['UPLOAD_FOLDER'], imagem_filename))
-                petgram.imagem = imagem_filename
+    if form.validate_on_submit():
+        petgram.legenda = form.legenda.data
+        petgram.categoria_petgram = form.categoria_petgram.data
+
+        # Verifica se um novo arquivo foi enviado
+        if form.imagem.data and hasattr(form.imagem.data, 'filename'):
+            imagem = form.imagem.data
+            imagem_filename = secure_filename(imagem.filename)
+            imagem_path = os.path.join(app.config['UPLOAD_FOLDER'], imagem_filename)
+            imagem.save(imagem_path)
+            petgram.imagem = imagem_filename
 
         db.session.commit()
-        flash('Petgram atualizado com sucesso!')
+        flash('Petgram atualizado com sucesso!', 'success')
         return redirect(url_for('petgramLista'))
 
-    return render_template('petgram/petgram_editar.html', petgram=petgram)
+    # Preenche os campos do formulário com os valores atuais
+    form.legenda.data = petgram.legenda
+    form.categoria_petgram.data = petgram.categoria_petgram
+    return render_template('petgram/petgram_editar.html', form=form, petgram=petgram)
 
 
 
