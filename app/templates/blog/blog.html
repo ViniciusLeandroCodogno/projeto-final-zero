@@ -34,7 +34,8 @@
                                                Comentarios
                                             </button>
                                             
-
+                                            
+                                            {% if linha.user_id == current_user.id %}
                                             <!-- Botão "Editar" -->
                                             <a href="{{ url_for('editar_post', post_id=linha.id) }}" class="btn btn-editar btn-sm me-2">Editar</a>
 
@@ -43,6 +44,7 @@
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <button type="submit" class="btn btn-excluir btn-sm">Excluir</button>
                                             </form>
+                                            {% endif %}
                                         </div>
 
                                         <!-- Modal de Comentários -->
@@ -106,7 +108,7 @@
             background-color: #185757; /* Fundo principal */
             font-family: 'Poppins', sans-serif;
         }
-    
+        
         /* Título "Últimas Postagens" */
         .ultimas-postagens {
             color: #E8EEEE;
@@ -166,6 +168,13 @@
             color: #E8EEEE;
             font-family: 'Kavoon', cursive;
         }
+
+        .modal-header h4 {
+            padding-top: 20px;
+            color: #E8EEEE; 
+            font-family: 'Kavoon', cursive !important; 
+
+        }
     
         .modal-body {
             color: #185757;
@@ -219,12 +228,7 @@
             background-color: #E8EEEE;
             color: #D1A247;
         }
-    
-        /* Ícone de Comentário */
-        .comentario-icon i {
-            font-size: 1.2em;
-            color: #D1A247;
-        }
+
     
         /* Botões de Ação de Post */
         .btn-editar {

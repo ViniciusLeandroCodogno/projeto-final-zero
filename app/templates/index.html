@@ -56,15 +56,16 @@
                                                     <!-- Botões de Ação -->
                                                     <div class="d-flex align-items-center">
                                                         <button class="btn btn-comentar btn-sm me-2" data-bs-toggle="modal" data-bs-target="#comentariosModal{{ linha.id }}">
-                                                        Comentar
+                                                        Comentarios
                                                         </button>
-                                                        
+                                                        {% if linha.user_id == current_user.id %}
                                                         <a href="{{ url_for('editar_post', post_id=linha.id) }}" class="btn btn-editar btn-sm me-2">Editar</a>
 
                                                         <form action="{{ url_for('excluir_post', post_id=linha.id) }}" method="POST" style="display:inline;">
                                                             <input type="hidden" name="_method" value="DELETE">
                                                             <button type="submit" class="btn btn-excluir btn-sm">Excluir</button>
                                                         </form>
+                                                        {% endif %}
                                                     </div>
 
                                                     <!-- Modal de Comentários -->
@@ -228,7 +229,7 @@
     .destaques-ultimos-posts {
         display: flex;
         justify-content: space-between;
-        flex-wrap: wrap; /* Permite a quebra de linha, caso necessário */
+        flex-wrap: wrap; 
         padding: 4%;   
         background-color: #297272;      
     }
@@ -243,7 +244,6 @@
     }
 
     .dest-post {
-        background-color: #185757;
         width: 30%;
         border-radius: 20px 20px 20px 20px;
         margin-bottom: 20px;
@@ -255,18 +255,16 @@
         height: auto;
     }
 
-    /* Estrutura do Post */
     .post-estrutura {
         background-color: #D9D9D9;
         border-radius: 20px;
         padding: 20px;
         max-width: 800px;
         margin: 20px auto;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Sombrinha suave na estrutura do post */
-        margin-bottom: 0 !important; /* Garantir que não haja espaço extra entre os posts */
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); 
+        margin-bottom: 0 !important; 
     }
 
-    /* Título do Post */
     .post-estrutura h4 {
         color: #185757;
         font-family: 'Poppins', sans-serif;
@@ -274,7 +272,6 @@
         margin-bottom: 15px;
     }
 
-    /* Texto do Post */
     .post-estrutura p {
         color: #185757;
         font-family: 'Poppins', sans-serif;
@@ -282,14 +279,13 @@
         margin-bottom: 15px;
     }
 
-    /* Imagem do Post */
     .post-estrutura img {
         border-radius: 15px;
         width: 100%;
         height: auto;
         object-fit: cover;
         margin-bottom: 15px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra para a imagem */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
     }
 
     .btn-editar {
@@ -361,7 +357,61 @@
         border: none; 
         padding: 0;  
     }
-    
+
+    .modal-content {
+        background-color: #D9D9D9;
+        border-radius: 10px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .modal-header {
+        background-color: #185757;
+        color: #E8EEEE !important; 
+        font-family: 'Kavoon', cursive;
+    }
+
+    .modal-header h4 {
+        padding-top: 20px;
+        color: #E8EEEE; 
+        font-family: 'Kavoon', cursive !important; 
+    }
+
+    .modal-body {
+        color: #185757;
+    }
+
+    .comentario {
+        background-color: #A5A5A5;
+        color: #185757;
+        padding: 15px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        font-family: 'Poppins', sans-serif;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); 
+    }
+
+    .comentario .btn-editar {
+        background-color: #185757;
+        color: #E8EEEE;
+        border: none;
+    }
+
+    .comentario .btn-editar:hover {
+        background-color: #E8EEEE;
+        color: #185757;
+    }
+
+    .comentario .btn-excluir {
+        background-color: #D1A247;
+        color: #E8EEEE;
+        border: none;
+    }
+
+    .comentario .btn-excluir:hover {
+        background-color: #E8EEEE;
+        color: #D1A247;
+    }
+
 </style>
 
 {% endblock %}

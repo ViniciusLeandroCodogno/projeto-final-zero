@@ -335,13 +335,15 @@ def editar_comentario_petgram(comentario_id):
 
 @app.route('/excluir_comentario_petgram/<int:comentario_id>', methods=['POST'])
 def excluir_comentario_petgram(comentario_id):
-    comentario = ComentarioPetgram.query.get_or_404(comentario_id)
-    if comentario.user_id == current_user.id:
-        db.session.delete(comentario)
-        db.session.commit()
-        flash('Comentário excluído com sucesso!', 'success')
-    return redirect(url_for('petgramLista'))
-
+    if request.form.get('_method') == 'DELETE':
+        comentario = ComentarioPetgram.query.get_or_404(comentario_id)
+        if comentario.user_id == current_user.id:
+            db.session.delete(comentario)
+            db.session.commit()
+            flash('Comentário excluído com sucesso!', 'success')
+            return redirect(url_for('petgramLista'))
+        flash('Você não tem permissão para excluir esse comentário.', 'danger')
+        return redirect(url_for('petgramLista'))
 
 
 @app.route('/politica-privacidade/')

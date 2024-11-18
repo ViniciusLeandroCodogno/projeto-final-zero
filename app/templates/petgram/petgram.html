@@ -25,13 +25,12 @@
                                         {{ linha.data_criacao.strftime('%d/%m/%Y %H:%M') if linha.data_criacao else "Data não disponível" }}
                                     </em></p>  
 
-                                    <!-- Botões de Ação com ícone de Comentário -->
                                     <div class="d-flex align-items-center">
-                                        <!-- Ícone de Comentário -->
+
                                         <button class="btn btn-comentar btn-sm me-2" data-bs-toggle="modal" data-bs-target="#comentariosModal{{ linha.id }}">
                                            Comentarios
                                         </button>
-
+                                        {% if linha.user_id == current_user.id %}
                                         <!-- Botão "Editar" -->
                                         <a href="{{ url_for('editar_petgram', petgram_id=linha.id) }}" class="btn btn-editar btn-sm me-2">Editar</a>
 
@@ -39,7 +38,8 @@
                                         <form action="{{ url_for('excluir_petgram', petgram_id=linha.id) }}" method="POST" style="display:inline;">
                                             <input type="hidden" name="_method" value="DELETE">
                                             <button type="submit" class="btn btn-excluir btn-sm">Excluir</button>
-                                        </form>
+                                        </form> 
+                                        {% endif %}                                     
                                     </div>
 
                                     <!-- Modal de Comentários -->
@@ -72,8 +72,8 @@
                                                                     
                                                                     {% if comentario.user_id == current_user.id %}
                                                                         <div class="d-flex">
-                                                                            <a href="{{ url_for('editar_comentario', comentario_id=comentario.id) }}" class="btn btn-editar btn-sm me-2">Editar</a>
-                                                                            <form action="{{ url_for('excluir_comentario', comentario_id=comentario.id) }}" method="POST" style="display:inline;">
+                                                                            <a href="{{ url_for('editar_comentario_petgram', comentario_id=comentario.id) }}" class="btn btn-editar btn-sm me-2">Editar</a>
+                                                                            <form action="{{ url_for('excluir_comentario_petgram', comentario_id=comentario.id) }}" method="POST" style="display:inline;">
                                                                                 <input type="hidden" name="_method" value="DELETE">
                                                                                 <button type="submit" class="btn btn-excluir btn-sm">Excluir</button>
                                                                             </form>
@@ -165,8 +165,9 @@
         }
 
         .modal-header h4 {
-            color: #E8EEEE; /* Garantir que a cor do texto seja aplicada */
-            font-family: 'Kavoon', cursive !important; /* Garantir que a fonte seja aplicada */
+            padding-top: 20px;
+            color: #E8EEEE; 
+            font-family: 'Kavoon', cursive !important; 
         }
 
         .modal-body {

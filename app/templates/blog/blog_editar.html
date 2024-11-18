@@ -16,7 +16,7 @@
                 </div>
             {% endif %}
         {% endwith %}
-        <h3 class="text-center mb-4" style="color: #297272;">Editar Post</h3>
+        <h3 class="text-editar text-center mb-4" style="color: #297272;">Editar Post</h3>
         
         <form action="{{ url_for('editar_post', post_id=post.id) }}" method="POST" enctype="multipart/form-data" class="row mt-4 p-4 rounded shadow-lg" style="background-color: #E8EEEE;">
             {{ form.hidden_tag() }}  <!-- Campo CSRF -->
@@ -53,6 +53,11 @@
     <style>
         body {
             background-color: #E8EEEE; /* Cor de fundo do body */
+        }
+
+        .text-editar {
+            color: #185757; 
+            font-family: "Kavoon", sans-serif;
         }
         
         .custom-textarea {
